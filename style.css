@@ -155,10 +155,16 @@ body::before {
 /* 🎩 Top Header Elite */
 .top-header {
     display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-top: 8px;
+}
+
+.top-header-row {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 40px;
-    padding-top: 8px;
 }
 
 .page-title h2 {
@@ -176,7 +182,46 @@ body::before {
     display: flex;
     align-items: center;
     gap: 16px;
+    flex-wrap: wrap;
 }
+
+/* 🗓️ Month Pill Strip */
+.month-strip {
+    display: flex;
+    gap: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 6px 0 4px;
+    scrollbar-width: none;
+}
+.month-strip::-webkit-scrollbar { display: none; }
+
+.month-pill {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    color: var(--text-secondary);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.month-pill:hover {
+    background: rgba(249, 115, 22, 0.15);
+    border-color: rgba(249, 115, 22, 0.4);
+    color: #fff;
+}
+.month-pill.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(249, 115, 22, 0.6);
+}
+
 
 /* ==========================================================================
    PARTICIPATION PANEL (DRE PHASE 1)
@@ -270,6 +315,19 @@ body::before {
 .glass:hover {
     box-shadow: 0 15px 45px 0 rgba(0, 0, 0, 0.7), 0 0 25px rgba(249, 115, 22, 0.15) inset;
     border-color: rgba(255, 255, 255, 0.2);
+}
+
+.glass-controls {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-radius: 12px;
+    padding: 8px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
 /* 💎 Stat Cards Platinum */
@@ -513,10 +571,14 @@ body::before {
     }
 
     .header-actions {
+        flex-wrap: wrap;
+        justify-content: flex-start;
         width: 100%;
         overflow-x: auto;
         padding-bottom: 10px;
     }
+    .header-controls { margin-top: 10px; width: 100%; justify-content: space-between; }
+    .glass-controls { flex-wrap: wrap; }
 
     .main-grid {
         grid-template-columns: 1fr;

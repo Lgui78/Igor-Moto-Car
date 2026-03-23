@@ -50,44 +50,46 @@
         <!-- Dynamic Main Surface -->
         <main class="main-content">
             <header class="top-header">
-                <div class="page-title">
-                    <h2 id="currentPageTitle">Visão Executiva</h2>
-                    <p id="currentPageDesc">Consolidado de Performance do Grupo</p>
+                <div class="top-header-row">
+                    <div class="page-title">
+                        <h2 id="currentPageTitle">Visão Executiva</h2>
+                        <p id="currentPageDesc">Consolidado de Performance do Grupo</p>
+                    </div>
+                    <div class="header-actions">
+                        <div class="header-controls glass-controls">
+                            <button class="icon-btn-text" onclick="exportData('PDF')">⬇ PDF</button>
+                            <button class="icon-btn-text" onclick="exportData('XLSX')">⬇ EXCEL</button>
+                        </div>
+                        <div class="header-controls glass-controls">
+                            <select id="filtroFilial" onchange="switchPage(window.currentPage || 'executiva')">
+                                <option value="todas">Grupo Consolidado</option>
+                                <option value="centro">Filial Centro</option>
+                                <option value="norte">Filial Norte</option>
+                                <option value="sul">Filial Sul</option>
+                            </select>
+                            <select id="filtroData" onchange="switchPage(window.currentPage || 'executiva')">
+                                <option value="2026">2026</option>
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="header-actions">
-                    <div class="export-group glass">
-                        <button class="icon-btn-text" onclick="exportData('PDF')">RELATÓRIO PDF</button>
-                        <button class="icon-btn-text" onclick="exportData('XLSX')">DADOS EXCEL</button>
-                    </div>
-
-                    <div class="filter-group glass">
-                        <select id="filtroFilial">
-                            <option value="todas">Grupo Consolidado</option>
-                            <option value="centro">Filial Centro</option>
-                            <option value="norte">Filial Norte</option>
-                            <option value="sul">Filial Sul</option>
-                        </select>
-                        <select id="filtroMes">
-                            <option value="12">Dezembro</option>
-                            <option value="11">Novembro</option>
-                            <option value="10">Outubro</option>
-                            <option value="9">Setembro</option>
-                            <option value="8">Agosto</option>
-                            <option value="7">Julho</option>
-                            <option value="6">Junho</option>
-                            <option value="5">Maio</option>
-                            <option value="4">Abril</option>
-                            <option value="3" selected>Março</option>
-                            <option value="2">Fevereiro</option>
-                            <option value="1">Janeiro</option>
-                        </select>
-                        <select id="filtroData">
-                            <option value="2026">2026</option>
-                            <option value="2025">2025</option>
-                            <option value="2024">2024</option>
-                        </select>
-                    </div>
+                <!-- 🗓️ Month Pill Strip - Estilo BI Premium -->
+                <div class="month-strip" id="monthStrip">
+                    <button class="month-pill" onclick="selectMes(1,this)">JAN</button>
+                    <button class="month-pill" onclick="selectMes(2,this)">FEV</button>
+                    <button class="month-pill active" onclick="selectMes(3,this)">MAR</button>
+                    <button class="month-pill" onclick="selectMes(4,this)">ABR</button>
+                    <button class="month-pill" onclick="selectMes(5,this)">MAI</button>
+                    <button class="month-pill" onclick="selectMes(6,this)">JUN</button>
+                    <button class="month-pill" onclick="selectMes(7,this)">JUL</button>
+                    <button class="month-pill" onclick="selectMes(8,this)">AGO</button>
+                    <button class="month-pill" onclick="selectMes(9,this)">SET</button>
+                    <button class="month-pill" onclick="selectMes(10,this)">OUT</button>
+                    <button class="month-pill" onclick="selectMes(11,this)">NOV</button>
+                    <button class="month-pill" onclick="selectMes(12,this)">DEZ</button>
+                    <input type="hidden" id="filtroMes" value="3">
                 </div>
             </header>
 

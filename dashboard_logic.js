@@ -540,9 +540,115 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function exportData(format) {
-    const pageTitle = document.getElementById('currentPageTitle').innerText;
-    alert(`🎯 Relatório Corporativo Gerado!\n\nDocumento: ${pageTitle}\nFormato: ${format}\nStatus: Pronto para download em Alta Definição.`);
+function selectMes(mes, btn) {
+    // Atualiza visual das pílulas
+    document.querySelectorAll('.month-pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    // Atualiza o valor hidden
+    const hiddenInput = document.getElementById('filtroMes');
+    if (hiddenInput) hiddenInput.value = mes;
+    // Re-renderiza a página atual com o novo mês
+    switchPage(window.currentPage || 'executiva');
+}
+
+function exportData(tipo) {
+    const pageTitle = document.getElementById('currentPageTitle')?.innerText || 'MotoCarCF';
+    const mes = document.getElementById('filtroMes')?.value || '3';
+    const ano = document.getElementById('filtroData')?.value || '2026';
+    const filial = document.getElementById('filtroFilial')?.value || 'todas';
+    
+    const mesesNome = ['','Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+    if (tipo === 'XLSX') {
+        // 📊 Gerar e Baixar Excel REAL via SheetJS (XLSX Library)
+        try {
+            if (typeof XLSX === 'undefined') {
+                // Carrega a lib se não estiver disponível
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+                script.onload = () => exportData('XLSX');
+                document.head.appendChild(script);
+                return;
+            }
+
+            // Dados do Dashboard MotoCarCF
+            const dados = [
+                ['MotoCarCF | Cockpit Elite', '', '', ''],
+                [`Relatório: ${pageTitle}`, `Período: ${mesesNome[parseInt(mes)]}/${ano}`, `Filial: ${filial === 'todas' ? 'Grupo Consolidado' : filial}`, ''],
+                ['', '', '', ''],
+                ['INDICADOR', 'VALOR', 'VARIAÇÃO', 'STATUS'],
+                ['Receita Bruta (RB)', 'R$ 2.450.000', '+14%', '✅ Acima da Meta'],
+                ['Impostos e Deduções', 'R$ (310.000)', '-2.1%', '⚠️ Monitorar'],
+                ['CMV - Custo Mercadoria', 'R$ (890.000)', '-4.8%', '⚠️ Monitorar'],
+                ['Lucro Bruto Operacional', 'R$ 1.250.000', '+8%', '✅ OK'],
+                ['Despesas Comerciais', 'R$ (120.000)', '+1.5%', '✅ OK'],
+                ['Despesas Administrativas', 'R$ (230.000)', '+0.8%', '✅ OK'],
+                ['Lucro Líquido', 'R$ 420.000', '+8%', '✅ Acima Meta'],
+                ['ROI', '12.4%', '', '✅ Meta Batida'],
+                ['', '', '', ''],
+                ['FILIAIS', 'FATURAMENTO', 'EBITDA', 'ROI%'],
+                ['Filial Centro (Matriz)', 'R$ 1.450.000', 'R$ 280.000', '32%'],
+                ['Filial Norte', 'R$ 820.000', 'R$ 110.000', '28%'],
+                ['Filial Sul', 'R$ 610.000', 'R$ 45.000', '18%'],
+            ];
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.aoa_to_sheet(dados);
+
+            // Largura das colunas
+            ws['!cols'] = [{wch: 35}, {wch: 20}, {wch: 15}, {wch: 20}];
+
+            XLSX.utils.book_append_sheet(wb, ws, 'MotoCarCF Dashboard');
+            XLSX.writeFile(wb, `MotoCarCF_${pageTitle.replace(/ /g,'_')}_${mesesNome[parseInt(mes)]}_${ano}.xlsx`);
+
+        } catch (err) {
+            alert('Erro ao gerar Excel: ' + err.message);
+        }
+
+    } else if (tipo === 'PDF') {
+        // 🖨️ PDF via Print do navegador (Ctrl+P → Salvar como PDF)
+        const printContent = document.getElementById('pageContainer')?.innerHTML || '';
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>MotoCarCF | ${pageTitle} - ${mesesNome[parseInt(mes)]}/${ano}</title>
+                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+                <style>
+                    body { font-family: 'Outfit', sans-serif; background: #fff; color: #111; padding: 32px; }
+                    h1 { font-size: 1.8rem; margin-bottom: 4px; }
+                    .info { color: #555; margin-bottom: 24px; font-size: 0.9rem; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                    th { background: #f97316; color: white; padding: 10px 14px; text-align: left; }
+                    td { padding: 9px 14px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+                    tr:nth-child(even) td { background: #f9fafb; }
+                    .footer { margin-top: 40px; font-size: 0.75rem; color: #999; text-align: center; }
+                    @media print { body { padding: 16px; } }
+                </style>
+            </head>
+            <body>
+                <h1>🏍️ MotoCarCF | ${pageTitle}</h1>
+                <div class="info">Período: ${mesesNome[parseInt(mes)]}/${ano} &nbsp;|&nbsp; Filial: ${filial === 'todas' ? 'Grupo Consolidado' : filial}</div>
+                <table>
+                    <thead><tr><th>Indicador</th><th>Valor</th><th>Variação</th><th>Status</th></tr></thead>
+                    <tbody>
+                        <tr><td>Receita Bruta (RB)</td><td>R$ 2.450.000</td><td>+14%</td><td>✅ Acima da Meta</td></tr>
+                        <tr><td>Impostos e Deduções</td><td>R$ (310.000)</td><td>-2.1%</td><td>⚠️ Monitorar</td></tr>
+                        <tr><td>CMV - Custo Mercadoria</td><td>R$ (890.000)</td><td>-4.8%</td><td>⚠️ Monitorar</td></tr>
+                        <tr><td>Lucro Bruto Operacional</td><td>R$ 1.250.000</td><td>+8%</td><td>✅ OK</td></tr>
+                        <tr><td>Despesas Comerciais</td><td>R$ (120.000)</td><td>+1.5%</td><td>✅ OK</td></tr>
+                        <tr><td>Despesas Administrativas</td><td>R$ (230.000)</td><td>+0.8%</td><td>✅ OK</td></tr>
+                        <tr><td><strong>Lucro Líquido</strong></td><td><strong>R$ 420.000</strong></td><td>+8%</td><td>✅ Acima Meta</td></tr>
+                    </tbody>
+                </table>
+                <div class="footer">Gerado por MotoCarCF Cockpit Elite – ${new Date().toLocaleString('pt-BR')}</div>
+                <script>window.onload = () => { window.print(); }<\/script>
+            </body>
+            </html>
+        `);
+        printWindow.document.close();
+    }
 }
 
 function switchPage(pageKey) {
