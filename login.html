@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Moto Car Elite BI</title>
+    <title>REDLINE BI | MOTO COCKPIT</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
@@ -154,13 +154,17 @@
             const email = document.getElementById('email').value.trim().toLowerCase();
             const password = document.getElementById('password').value.trim();
 
-            // 🛡️ TRAVA DE SEGURANÇA MOTO CAR (Versão Final Igor)
-            const isAuthorizedEmail = email.includes('admin') || email.includes('diretoria');
-            const masterPass = 'admin123';
-
-            if (isAuthorizedEmail && password === masterPass) {
+            // 🏎️💨 LÓGICA REDLINE: QUALQUER LOGIN VÁLIDO ENTRA (FOOLPROOF DEMO)
+            if (email.length >= 3 && password.length >= 3) {
+                console.log("REDLINE AUTH SUCCESS! 🏁");
                 localStorage.setItem('motocar_session', 'authenticated');
-                window.location.href = 'index.html';
+                
+                // Redirecionamento dinâmico para GitHub Pages ou Local
+                const target = window.location.pathname.includes('login.html') 
+                    ? window.location.pathname.replace('login.html', 'index.html')
+                    : 'index.html';
+                
+                window.location.href = target;
             } else {
                 const err = document.getElementById('errorMsg');
                 err.style.display = 'block';
