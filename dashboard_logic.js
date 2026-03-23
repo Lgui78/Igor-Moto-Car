@@ -6,30 +6,48 @@
 
 const PÁGINAS = {
     executiva: {
-        title: "Visão Executiva (Diretoria)",
-        desc: "Indicadores estratégicos de performance consolidada",
+        title: "Visão Executiva (BI Cockpit)",
+        desc: "Performance Consolidada e Tendência de Faturamento",
         content: `
-            <div class="ai-insight-card animate-slide-up">
-                <div class="ai-header"><i data-lucide="sparkles"></i> <strong>MotoCar AI:</strong> Insights Estratégicos</div>
-                <p>O lucro líquido subiu 8% neste trimestre, impulsionado pela Filial Centro. Recomendo atenção à Filial Sul, onde a margem está 5% abaixo do orçado.</p>
+            <div class="card-grid animate-slide-up" style="margin-bottom: 24px;">
+                <div class="glass stat-card">
+                    <div class="stat-info"><p>RECEITA MENSAL</p><h3 class="value glow">R$ 2.45M</h3><span class="delta success">↑ 14% vs meta</span></div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-info"><p>LUCRO LÍQUIDO</p><h3 class="value glow">R$ 420k</h3><span class="delta success">↑ 8% vs Fev</span></div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-info"><p>TICKET MÉDIO</p><h3 class="value">R$ 18.2k</h3><span class="status healthy">ESTÁVEL</span></div>
+                </div>
+                <div class="glass stat-card">
+                    <div class="stat-info"><p>RETORNO (ROI)</p><h3 class="value glow">12.4%</h3><span class="delta success">↑ Meta Batida</span></div>
+                </div>
             </div>
-            <div class="dashboard-stats">
-                <div class="stat-card glass"><div class="stat-info"><p class="label">Receita Líquida</p><h2 class="value">R$ 1.2M</h2><p class="delta positive">+15% YoY</p></div></div>
-                <div class="stat-card glass"><div class="stat-info"><p class="label">Lucro Líquido</p><h2 class="value">R$ 420k</h2><p class="delta positive">Saúde OK</p></div></div>
-                <div class="stat-card glass"><div class="stat-info"><p class="label">EBITDA</p><h2 class="value">28%</h2><p class="delta">Meta Atingida</p></div></div>
-                <div class="stat-card glass"><div class="stat-info"><p class="label">ROI</p><h2 class="value">12.4%</h2><p class="delta positive">Excelente</p></div></div>
-            </div>
-            <div class="main-grid">
-                <div class="glass" style="height: 400px"><canvas id="chartExecutiva"></canvas></div>
-                <div class="glass"><div class="section-header"><h3>Melhores Margens / Filial</h3></div>
-                    <table class="fleet-table">
-                        <thead><tr><th>Filial</th><th>Margem Líquida</th><th>Meta</th></tr></thead>
-                        <tbody>
-                            <tr class="clickable" onclick="openDetails('filial', 'Centro')"><td>Filial Centro</td><td>32%</td><td>🟢 OK</td></tr>
-                            <tr class="clickable" onclick="openDetails('filial', 'Norte')"><td>Filial Norte</td><td>28%</td><td>🟢 OK</td></tr>
-                            <tr class="clickable" onclick="openDetails('filial', 'Sul')"><td>Filial Sul</td><td>18%</td><td>🟡 Alerta</td></tr>
-                        </tbody>
-                    </table>
+
+            <div class="main-grid" style="grid-template-columns: 1.5fr 1fr; gap: 24px;">
+                <div class="glass" style="height: 480px; padding: 24px;">
+                    <div class="section-header">
+                        <h3 style="font-weight: 800;"><i data-lucide="trending-up" style="color: var(--accent); vertical-align: middle;"></i> Tendência de Faturamento Mensal (YoY)</h3>
+                    </div>
+                    <canvas id="chartFaturamentoMensal"></canvas>
+                </div>
+                <div class="glass" style="padding: 24px;">
+                    <div class="section-header">
+                        <h3 style="font-weight: 800;">Participação por Filial</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="dre-table">
+                            <thead><tr><th>FILIAL</th><th>CONTRIBUIÇÃO</th><th>SAÚDE</th></tr></thead>
+                            <tbody>
+                                <tr class="interactive" onclick="switchPage('filiais')"><td>Centro (Matriz)</td><td>55%</td><td>🟢 EXCEPCIONAL</td></tr>
+                                <tr class="interactive" onclick="switchPage('filiais')"><td>Norte</td><td>30%</td><td>🟢 OK</td></tr>
+                                <tr class="interactive" onclick="switchPage('filiais')"><td>Sul</td><td>15%</td><td>🟡 ALERTA</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="ai-insight-card" style="margin-top: 24px;">
+                        <p style="font-size: 0.8rem;"><i data-lucide="sparkles"></i> <strong>Moto AI:</strong> Recomendamos reforço de estoque na Filial Norte para suportar o crescimento de 15% projetado para Abril.</p>
+                    </div>
                 </div>
             </div>
         `
@@ -551,7 +569,7 @@ function switchPage(pageKey) {
     closeParticipation();
 
     // Inicializa Gráficos se necessário
-    if (pageKey === 'executiva') initExecutivaChart();
+    if (pageKey === 'executiva') initFaturamentoChart();
     if (pageKey === 'sazonalidade') initSazonalidadeChart();
     if (pageKey === 'orcamento') initOrcamentoChart();
     if (pageKey === 'despesas') initDespesasCharts();
@@ -560,20 +578,34 @@ function switchPage(pageKey) {
     window.scrollTo(0,0);
 }
 
-function initExecutivaChart() {
-    const ctx = document.getElementById('chartExecutiva');
+function initFaturamentoChart() {
+    const ctx = document.getElementById('chartFaturamentoMensal');
     if (!ctx) return;
     new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
-            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
             datasets: [{
-                label: 'Lucro Líquido (R$)',
-                data: [310000, 420000, 380000, 450000, 440000, 460000],
-                borderColor: '#6366f1', tension: 0.4, fill: true, backgroundColor: 'rgba(99, 102, 241, 0.1)'
+                label: 'Realizado (R$M)',
+                data: [1.8, 2.1, 2.45, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                backgroundColor: 'rgba(249, 115, 22, 0.8)',
+                borderRadius: 8
+            }, {
+                label: 'Meta/2025 (R$M)',
+                data: [1.6, 1.9, 2.2, 2.3, 2.1, 2.5, 2.6, 2.4, 2.3, 2.5, 2.7, 3.0],
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                borderRadius: 8
             }]
         },
-        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        options: { 
+            responsive: true, 
+            maintainAspectRatio: false, 
+            scales: {
+                y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+            },
+            plugins: { legend: { labels: { color: '#fff', font: { family: 'Outfit' } } } }
+        }
     });
 }
 
