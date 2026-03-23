@@ -619,8 +619,83 @@ body::before {
     box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
 }
 
-/* 📱 Responsive Design (Mobile First Optimization) */
-@media (max-width: 1024px) {
+/* ============================================================
+   📱 RESPONSIVE — 3-TIER LAYOUT
+   ============================================================ */
+
+/* 🖥️ Tablet / Small Laptop: Sidebar fica compacta (ícone-only) */
+@media (max-width: 1280px) {
+    .app-container { gap: 16px; padding: 16px; }
+
+    .sidebar {
+        width: 72px;
+        padding: 24px 12px;
+        overflow: visible;
+        align-items: center;
+    }
+
+    .logo-section {
+        justify-content: center;
+        padding-left: 0;
+        margin-bottom: 20px;
+    }
+
+    /* Esconde o texto da brand no logo, mantém o ícone */
+    .brand-name { display: none; }
+
+    .main-nav { gap: 4px; align-items: center; }
+
+    .nav-item {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        padding: 0;
+        justify-content: center;
+        position: relative;
+        overflow: visible;
+    }
+
+    /* Esconde o texto dos links */
+    .nav-item span,
+    .nav-item:not([data-icon]) { font-size: 0; }
+
+    /* Mostra tooltip ao passar o mouse */
+    .nav-item::after {
+        content: attr(data-title);
+        position: absolute;
+        left: 60px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(255,255,255,0.1);
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        font-weight: 600;
+        z-index: 9999;
+    }
+    .nav-item:hover::after { opacity: 1; }
+
+    /* profile card: só avatar */
+    .profile-card { padding: 10px; justify-content: center; }
+    .user-info { display: none; }
+    .logout-btn { margin-left: 0; }
+
+    .main-content { padding: 24px 20px; }
+
+    .top-header-row { flex-wrap: wrap; gap: 12px; }
+    .header-actions { flex-wrap: wrap; gap: 8px; }
+    .main-grid { grid-template-columns: 1fr !important; }
+    .dashboard-stats, .card-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* 📱 Mobile: Bottom Navigation */
+@media (max-width: 768px) {
     .app-container {
         flex-direction: column;
         padding: 0;
@@ -634,77 +709,71 @@ body::before {
         bottom: 0;
         left: 0;
         flex-direction: row;
-        padding: 12px 16px;
+        padding: 10px 12px;
         overflow-x: auto;
         border-right: none;
         border-top: 1px solid var(--glass-border);
-        border-radius: 24px 24px 0 0;
+        border-radius: 20px 20px 0 0;
         justify-content: space-around;
-        background: rgba(15, 23, 42, 0.95);
+        background: rgba(10, 18, 38, 0.97);
+        z-index: 9000;
     }
 
-    .logo-section, .profile-card, .user-info {
+    .sidebar::after {
+        display: none;
+    }
+
+    .logo-section, .user-info, .profile-card {
         display: none !important;
     }
+
+    .brand-name { display: none; }
 
     .main-nav {
         flex-direction: row;
         width: 100%;
-        gap: 20px;
+        gap: 4px;
         padding: 0;
+        align-items: center;
+        justify-content: space-around;
     }
 
     .nav-item {
         flex-direction: column;
-        gap: 4px;
-        padding: 8px;
-        font-size: 0.7rem;
+        gap: 3px;
+        padding: 6px 10px;
+        font-size: 0.62rem;
         text-align: center;
-        width: auto;
-        min-width: 60px;
+        border-radius: 10px;
+        min-width: 52px;
     }
 
     .nav-item i {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
     }
+
+    .nav-item::after { display: none; }
 
     .main-content {
-        padding: 20px;
-        margin-bottom: 80px; /* Space for mobile nav */
+        padding: 16px;
+        margin-bottom: 75px;
     }
 
-    .top-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-    }
-
-    .header-actions {
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        width: 100%;
-        overflow-x: auto;
-        padding-bottom: 10px;
-    }
-    .header-controls { margin-top: 10px; width: 100%; justify-content: space-between; }
-    .glass-controls { flex-wrap: wrap; }
-
-    .main-grid {
-        grid-template-columns: 1fr;
-    }
-    
     .dashboard-stats, .card-grid {
         grid-template-columns: 1fr 1fr;
     }
+
+    .top-header-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .header-actions { flex-wrap: wrap; }
+    .month-strip { gap: 4px; }
+    .month-pill { padding: 6px 10px; font-size: 0.72rem; }
 }
 
-@media (max-width: 600px) {
-    .dashboard-stats, .card-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .page-title h2 {
-        font-size: 1.6rem;
-    }
+/* 📱 Small Mobile: single column */
+@media (max-width: 480px) {
+    .dashboard-stats, .card-grid { grid-template-columns: 1fr; }
+    .page-title h2 { font-size: 1.5rem; }
+    .stat-card .value, .stat-card h3 { font-size: 1.6rem; }
+    .dre-table th, .dre-table td { padding: 10px 12px; }
 }
