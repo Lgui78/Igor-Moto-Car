@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moto Car | Elite BI Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // 🔒 SEGURANÇA MOTO CAR ELITE
+        if (localStorage.getItem('motocar_session') !== 'authenticated') {
+            location.href = 'login.html';
+        }
+    </script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Dinâmica -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <i data-lucide="shield-check" style="color: var(--accent); width: 32px; height: 32px;"></i>
+                <h1 class="brand-name">MOTO<span>CAR</span></h1>
+            </div>
+            
+            <nav class="main-nav">
+                <a href="#" class="nav-item active" onclick="switchPage('executiva')"><i data-lucide="layout-grid"></i> Visão Executiva</a>
+                <a href="#" class="nav-item" onclick="switchPage('dre')"><i data-lucide="activity"></i> DRE Gerencial</a>
+                <a href="#" class="nav-item" onclick="switchPage('comercial')"><i data-lucide="bar-chart-4"></i> Comercial</a>
+                <a href="#" class="nav-item" onclick="switchPage('pecas')"><i data-lucide="package"></i> Peças & Acc</a>
+                <a href="#" class="nav-item" onclick="switchPage('despesas')"><i data-lucide="pie-chart"></i> Despesas</a>
+                <a href="#" class="nav-item" onclick="switchPage('filiais')"><i data-lucide="layers"></i> Filiais</a>
+                <a href="#" class="nav-item" onclick="switchPage('sazonalidade')"><i data-lucide="calendar-days"></i> Sazonalidade</a>
+                <a href="#" class="nav-item" onclick="switchPage('orcamento')"><i data-lucide="target"></i> Orçamento</a>
+                
+                <div style="margin-top: auto; padding-top: 20px;">
+                    <a href="import.html" class="nav-item" style="border: 1px dashed var(--glass-border);"><i data-lucide="database"></i> Ingestão</a>
+                </div>
+            </nav>
+
+            <div class="profile-card">
+                <div class="avatar">DIR</div>
+                <div class="user-info">
+                    <p class="user-name">Administrador</p>
+                    <p class="user-role">Sócio Diretor</p>
+                </div>
+                <button onclick="logout()" class="logout-btn" title="Sair do Cockpit">
+                    <i data-lucide="log-out"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Dynamic Main Surface -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="page-title">
+                    <h2 id="currentPageTitle">Visão Executiva</h2>
+                    <p id="currentPageDesc">Consolidado de Performance do Grupo</p>
+                </div>
+                
+                <div class="header-actions">
+                    <div class="export-group glass">
+                        <button class="icon-btn-text" onclick="exportData('PDF')">RELATÓRIO PDF</button>
+                        <button class="icon-btn-text" onclick="exportData('XLSX')">DADOS EXCEL</button>
+                    </div>
+
+                    <div class="filter-group glass">
+                        <select id="filtroFilial">
+                            <option value="todas">Grupo Consolidado</option>
+                            <option value="centro">Filial Centro</option>
+                            <option value="norte">Filial Norte</option>
+                            <option value="sul">Filial Sul</option>
+                        </select>
+                        <select id="filtroMes">
+                            <option value="3">Março</option>
+                            <option value="2">Fevereiro</option>
+                            <option value="1">Janeiro</option>
+                        </select>
+                        <select id="filtroData">
+                            <option value="2026">2026</option>
+                            <option value="2025">2025</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Container Dinâmico das Páginas -->
+            <div id="pageContainer">
+                <!-- Conteúdo será injetado pelo JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <!-- 📊 Painel de Participação de Filiais (Fase 1) -->
+    <div id="sideParticipationPanel" class="participation-overlay">
+        <div class="participation-content glass scale-in">
+            <div class="panel-header">
+                <h3 style="font-weight: 800; letter-spacing: -0.5px;">ANÁLISE DE SHARE</h3>
+                <button onclick="closeParticipation()" class="icon-btn"><i data-lucide="x"></i></button>
+            </div>
+            <div class="panel-body">
+                <div id="participationList" class="participation-list">
+                    <!-- Dinâmico via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay de Drill-through (Passo 7) -->
+    <div id="detailOverlay" class="detail-overlay glass">
+        <div class="overlay-content">
+            <header class="overlay-header">
+                <h2 id="detailTitle">Detalhes do Item</h2>
+                <button class="icon-btn" onclick="closeDetails()"><i data-lucide="x"></i></button>
+            </header>
+            <div id="detailBody" class="overlay-body">
+                <!-- Conteúdo detalhado aqui -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Controle -->
+    <script src="dashboard_logic.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

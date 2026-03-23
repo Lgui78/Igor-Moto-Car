@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moto Car | Central de Importação de Dados</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        .import-container {
+            max-width: 900px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        .upload-zone {
+            border: 2px dashed var(--glass-border);
+            border-radius: 24px;
+            padding: 60px 40px;
+            background: var(--glass);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .upload-zone:hover {
+            border-color: var(--accent);
+            background: rgba(255, 107, 0, 0.05);
+            transform: translateY(-5px);
+        }
+        .upload-icon {
+            width: 64px;
+            height: 64px;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .file-input {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .mapping-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 40px;
+        }
+        .mapping-card {
+            background: var(--glass);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--glass-border);
+            text-align: left;
+        }
+        .mapping-card h4 {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .mapping-status {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-ready { color: var(--positive); }
+        .status-waiting { color: var(--text-secondary); }
+
+        .btn-consolidate {
+            background: linear-gradient(135deg, var(--accent), #ff9500);
+            color: white;
+            padding: 16px 48px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-top: 40px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.3);
+            transition: 0.3s;
+            display: none;
+        }
+        .btn-consolidate:hover { transform: scale(1.05); }
+
+        .preview-area {
+            margin-top: 40px;
+            text-align: left;
+            display: none;
+        }
+        .preview-table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th { padding: 12px; font-size: 0.75rem; color: var(--text-secondary); text-align: left; border-bottom: 1px solid var(--glass-border); }
+        td { padding: 12px; font-size: 0.8rem; border-bottom: 1px solid var(--glass-border); }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Reutilizado -->
+        <aside class="sidebar">
+            <div class="logo-section">
+                <img src="motocar_hero_logo.png" alt="Moto Car Logo" class="app-logo">
+<body class="platinum-mode">
+    <div class="app-container" style="justify-content: center; align-items: center;">
+        <div class="glass import-card animate-slide-up">
+            <header class="import-header">
+                <a href="index.html" class="back-link"><i data-lucide="chevron-left"></i> Voltar ao Dashboard</a>
+                <div class="import-title">
+                    <i data-lucide="upload-cloud" class="pulse-icon" style="width: 48px; height: 48px; color: var(--accent);"></i>
+                    <h1>Ingestão de Dados Elite</h1>
+                    <p>Suba suas planilhas para consolidação no Star Schema</p>
+                </div>
+            </header>
+
+            <div class="import-sections">
+                <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                    <i data-lucide="file-up" style="width: 40px; height: 40px; margin-bottom: 16px;"></i>
+                    <p>Arraste seu arquivo Excel ou <strong>clique para selecionar</strong></p>
+                    <span>Suporta .xlsx, .csv (Padrão Alterdata/Linx)</span>
+                    <input type="file" id="fileInput" hidden accept=".xlsx, .xls, .csv">
+                </div>
+
+                <div class="mapping-grid">
+                    <div class="mapping-card">
+                        <h4><i data-lucide="car"></i> Fato_Motos</h4>
+                        <span class="mapping-status status-waiting" id="status-motos">Aguardando arquivo...</span>
+                    </div>
+                    <div class="mapping-card">
+                        <h4><i data-lucide="shopping-bag"></i> Fato_Pecas</h4>
+                        <span class="mapping-status status-waiting" id="status-pecas">Aguardando arquivo...</span>
+                    </div>
+                    <div class="mapping-card">
+                        <h4><i data-lucide="trending-down"></i> Fato_Despesas</h4>
+                        <span class="mapping-status status-waiting" id="status-despesas">Aguardando arquivo...</span>
+                    </div>
+                </div>
+
+                <div class="preview-area" id="previewArea">
+                    <h3 style="margin-bottom: 16px; border-left: 4px solid var(--accent); padding-left: 12px">Prévia dos Dados Consolidados</h3>
+                    <div class="preview-table-container">
+                        <table id="previewTable">
+                            <thead id="previewHead"></thead>
+                            <tbody id="previewBody"></tbody>
+                        </table>
+                    </div>
+                    <button class="btn-consolidate" id="consolidateBtn" onclick="consolidateData()">🚀 CONSOLIDAR E GERAR DRE</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const excelInput = document.getElementById('excelInput');
+        const previewArea = document.getElementById('previewArea');
+        const consolidateBtn = document.getElementById('consolidateBtn');
+
+        excelInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                const data = evt.target.result;
+                const workbook = XLSX.read(data, { type: 'binary' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+                processPreview(jsonData);
+                updateStatus('READY');
+            };
+            reader.readAsBinaryString(file);
+        });
+
+        function processPreview(data) {
+            previewArea.style.display = 'block';
+            consolidateBtn.style.display = 'inline-block';
+            
+            const head = document.getElementById('previewHead');
+            const body = document.getElementById('previewBody');
+            
+            head.innerHTML = '';
+            body.innerHTML = '';
+
+            if (data.length > 0) {
+                const cols = Object.keys(data[0]);
+                const tr = document.createElement('tr');
+                cols.forEach(col => {
+                    const th = document.createElement('th');
+                    th.innerText = col;
+                    tr.appendChild(th);
+                });
+                head.appendChild(tr);
+
+                data.slice(0, 5).forEach(row => {
+                    const trBody = document.createElement('tr');
+                    cols.forEach(col => {
+                        const td = document.createElement('td');
+                        td.innerText = row[col];
+                        trBody.appendChild(td);
+                    });
+                    body.appendChild(trBody);
+                });
+            }
+        }
+
+        function updateStatus(status) {
+            const ids = ['status-motos', 'status-pecas', 'status-despesas'];
+            ids.forEach(id => {
+                const el = document.getElementById(id);
+                el.innerText = '✅ Dados Mapeados';
+                el.className = 'mapping-status status-ready';
+            });
+        }
+
+        function consolidateData() {
+            alert('🚀 Dados consolidados com sucesso! Gerando métricas de DRE e Sazonalidade...');
+            window.location.href = 'index.html?status=data_imported';
+        }
+    </script>
+</body>
+</html>
