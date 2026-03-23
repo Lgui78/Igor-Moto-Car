@@ -152,32 +152,15 @@
         lucide.createIcons();
 
         document.getElementById('btnEntrar').addEventListener('click', () => {
+            // MODO EMERGÊNCIA (PALCO AO VIVO): PASSE LIVRE ABSOLUTO
+            console.log("ENTRANDO DIRETAMENTE NO COCKPIT...");
             
-            // Tratamento à prova de balas para erros de digitação e espaços invisíveis
-            const email = document.getElementById('email').value.trim().toLowerCase();
-            const password = document.getElementById('password').value.trim();
-            
-            // Validadores resilientes (aceita se tiver o começo do email)
-            const isIgor = email.includes("igor@cfcontabilidade") || email.includes("igor");
-            const isGui = email.includes("gui.contato8") || email.includes("gui.contato");
-            const isCf = email.includes("cfcontabilidadelguilherme") || email.includes("cfcontabilidade");
-            
-            // Aceita a senha mesmo se a pessoa errar maiúsculas/minúsculas
-            const isPassValid = password === "CFRj@123" || password.toLowerCase() === "cfrj@123";
-
-            if ((isIgor || isGui || isCf) && isPassValid) {
-                console.log("ACESSO MASTER CONCEDIDO! 🏁");
-                const target = window.location.pathname.includes('login.html') 
-                    ? window.location.pathname.replace('login.html', 'index.html')
-                    : 'index.html';
-                
-                window.location.href = target;
-            } else {
-                const errorMsg = document.getElementById('errorMsg');
-                errorMsg.style.display = 'block';
-                errorMsg.innerText = "Acesso Negado: Verifique o e-mail ou a senha.";
-                document.getElementById('password').value = '';
+            // Corrige o path não importa onde o site esteja hospedado
+            let targetPath = 'index.html';
+            if (window.location.pathname.includes('login.html')) {
+                targetPath = window.location.pathname.replace('login.html', 'index.html');
             }
+            window.location.href = targetPath;
         });
 
         // Auto-focus no campo de email
