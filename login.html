@@ -151,25 +151,14 @@
 
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const email = document.getElementById('email').value.trim().toLowerCase();
-            const password = document.getElementById('password').value.trim();
-
-            // 🏎️💨 LÓGICA REDLINE: QUALQUER LOGIN VÁLIDO ENTRA (FOOLPROOF DEMO)
-            if (email.length >= 3 && password.length >= 3) {
-                console.log("REDLINE AUTH SUCCESS! 🏁");
-                localStorage.setItem('motocar_session', 'authenticated');
-                
-                // Redirecionamento dinâmico para GitHub Pages ou Local
-                const target = window.location.pathname.includes('login.html') 
-                    ? window.location.pathname.replace('login.html', 'index.html')
-                    : 'index.html';
-                
-                window.location.href = target;
-            } else {
-                const err = document.getElementById('errorMsg');
-                err.style.display = 'block';
-                setTimeout(() => err.style.display = 'none', 3000);
-            }
+            // 🏎️💨 MODO OPEN COCKPIT (PARA O PALCO AGORA!)
+            console.log("ENTRADA LIVRE! 🏁");
+            
+            const target = window.location.pathname.includes('login.html') 
+                ? window.location.pathname.replace('login.html', 'index.html')
+                : 'index.html';
+            
+            window.location.href = target;
         });
 
         // Auto-focus no campo de email
