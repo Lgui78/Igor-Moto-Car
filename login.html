@@ -131,8 +131,16 @@
         </div>
         
         <form id="loginForm">
-            <p style="margin-bottom: 24px; color: var(--text-secondary);">Bem-vindo ao centro de comando. Clique abaixo para iniciar.</p>
+            <div class="form-group">
+                <label>E-mail Master (Diretoria)</label>
+                <input type="email" id="email" placeholder="admin@cfcontabilidade.com" required>
+            </div>
+            <div class="form-group">
+                <label>Chave de Acesso</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
             <button type="submit" class="login-btn">INICIAR COCKPIT 🚀</button>
+            <p id="errorMsg" class="error-msg" style="display:none; color: var(--danger); margin-top: 15px;">Acesso Negado: Credenciais inválidas.</p>
         </form>
 
         <p style="margin-top: 30px; font-size: 0.75rem; color: var(--text-secondary);">
@@ -145,18 +153,35 @@
 
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            // 🏎️💨 MODO OPEN COCKPIT (PARA O PALCO AGORA!)
-            console.log("ENTRADA LIVRE! 🏁");
             
-            const target = window.location.pathname.includes('login.html') 
-                ? window.location.pathname.replace('login.html', 'index.html')
-                : 'index.html';
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
             
-            window.location.href = target;
+            // 🔐 Master Chaves de Autonomia Total
+            const masterAdmins = [
+                "gui.contato8@gmail.com", 
+                "igor@cfcontabilidade.com"
+            ];
+            const masterPass = "CFRj@123";
+
+            if (masterAdmins.includes(email) && password === masterPass) {
+                console.log("ACESSO MASTER CONCEDIDO! 🏁");
+                const target = window.location.pathname.includes('login.html') 
+                    ? window.location.pathname.replace('login.html', 'index.html')
+                    : 'index.html';
+                
+                window.location.href = target;
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+                document.getElementById('password').value = '';
+            }
         });
 
         // Auto-focus no campo de email
-        window.onload = () => document.getElementById('email').focus();
+        window.onload = () => {
+            const emailInput = document.getElementById('email');
+            if(emailInput) emailInput.focus();
+        };
     </script>
 </body>
 </html>
