@@ -581,20 +581,38 @@ function switchPage(pageKey) {
 function initFaturamentoChart() {
     const ctx = document.getElementById('chartFaturamentoMensal');
     if (!ctx) return;
+    
+    // 🎨 Efeito Neon Linear Gradient (Laranja Brilhante do Motor)
+    const ctx2d = ctx.getContext('2d');
+    const gradientVivo = ctx2d.createLinearGradient(0, 0, 0, 400);
+    gradientVivo.addColorStop(0, 'rgba(249, 115, 22, 1)');
+    gradientVivo.addColorStop(1, 'rgba(249, 115, 22, 0.1)');
+
+    const gradientMeta = ctx2d.createLinearGradient(0, 0, 0, 400);
+    gradientMeta.addColorStop(0, 'rgba(71, 85, 105, 0.6)');
+    gradientMeta.addColorStop(1, 'rgba(30, 41, 59, 0.2)');
+
     new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
             datasets: [{
-                label: 'Realizado (R$M)',
+                label: 'Realizado (R$M) 🚀',
                 data: [1.8, 2.1, 2.45, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                backgroundColor: 'rgba(249, 115, 22, 0.8)',
-                borderRadius: 8
+                backgroundColor: gradientVivo,
+                borderColor: 'rgba(249, 115, 22, 1)',
+                borderWidth: 2,
+                borderRadius: 8,
+                hoverBackgroundColor: '#fff',
+                barPercentage: 0.6
             }, {
                 label: 'Meta/2025 (R$M)',
                 data: [1.6, 1.9, 2.2, 2.3, 2.1, 2.5, 2.6, 2.4, 2.3, 2.5, 2.7, 3.0],
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                borderRadius: 8
+                backgroundColor: gradientMeta,
+                borderColor: 'rgba(100, 116, 139, 0.3)',
+                borderWidth: 1,
+                borderRadius: 8,
+                barPercentage: 0.6
             }]
         },
         options: { 
@@ -604,7 +622,8 @@ function initFaturamentoChart() {
                 y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
                 x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
             },
-            plugins: { legend: { labels: { color: '#fff', font: { family: 'Outfit' } } } }
+            plugins: { legend: { labels: { color: '#fff', font: { family: 'Outfit', size: 13 } } } },
+            animation: { duration: 2000, easing: 'easeOutQuart' }
         }
     });
 }

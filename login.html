@@ -160,11 +160,12 @@
             // Validadores resilientes (aceita se tiver o começo do email)
             const isIgor = email.includes("igor@cfcontabilidade") || email.includes("igor");
             const isGui = email.includes("gui.contato8") || email.includes("gui.contato");
+            const isCf = email.includes("cfcontabilidadelguilherme") || email.includes("cfcontabilidade");
             
             // Aceita a senha mesmo se a pessoa errar maiúsculas/minúsculas
             const isPassValid = password === "CFRj@123" || password.toLowerCase() === "cfrj@123";
 
-            if ((isIgor || isGui) && isPassValid) {
+            if ((isIgor || isGui || isCf) && isPassValid) {
                 console.log("ACESSO MASTER CONCEDIDO! 🏁");
                 const target = window.location.pathname.includes('login.html') 
                     ? window.location.pathname.replace('login.html', 'index.html')
