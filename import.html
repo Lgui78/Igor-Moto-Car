@@ -3,153 +3,418 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MotoCarCF | Ingestão Elite</title>
+    <title>MotoCarCF | Central de Importação</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase_conn.js"></script>
+    <style>
+        .import-tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+        .import-tab { padding: 10px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: var(--text-secondary); font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Outfit', sans-serif; }
+        .import-tab:hover { background: rgba(249,115,22,0.1); border-color: rgba(249,115,22,0.3); color: #fff; }
+        .import-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 0 20px rgba(249,115,22,0.4); }
+
+        .drop-zone { border: 2px dashed rgba(249,115,22,0.3); border-radius: 20px; padding: 56px 32px; text-align: center; cursor: pointer; transition: all 0.3s; background: rgba(249,115,22,0.02); }
+        .drop-zone:hover, .drop-zone.dragover { border-color: var(--accent); background: rgba(249,115,22,0.08); transform: scale(1.01); }
+        .drop-zone i { color: var(--accent); margin-bottom: 16px; }
+
+        .slot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 32px; }
+        .slot-card { background: rgba(15,23,42,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 20px; text-align: center; transition: all 0.3s; }
+        .slot-card.done { border-color: var(--positive); box-shadow: 0 0 15px rgba(16,185,129,0.2); }
+        .slot-card.loading { border-color: var(--warning); }
+        .slot-icon { font-size: 2rem; margin-bottom: 8px; }
+        .slot-label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+        .slot-status { font-size: 0.85rem; font-weight: 700; margin-top: 6px; color: var(--text-secondary); }
+        .slot-card.done .slot-status { color: var(--positive); }
+
+        .preview-table th { background: rgba(249,115,22,0.15); color: var(--accent); padding: 10px 14px; text-align: left; font-size: 0.8rem; letter-spacing: 0.5px; }
+        .preview-table td { padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.82rem; color: var(--text-primary); }
+        .preview-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+        .btn-consolidate { width: 100%; margin-top: 28px; background: linear-gradient(135deg, var(--accent), #ff9500); border: none; padding: 18px; border-radius: 14px; color: #fff; font-weight: 800; font-size: 1rem; cursor: pointer; font-family: 'Outfit', sans-serif; box-shadow: 0 10px 30px rgba(249,115,22,0.35); transition: all 0.3s; letter-spacing: 0.5px; }
+        .btn-consolidate:hover { transform: translateY(-3px); box-shadow: 0 18px 40px rgba(249,115,22,0.5); }
+
+        .export-bar { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+        .btn-export { display: flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: #fff; cursor: pointer; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.85rem; transition: all 0.2s; }
+        .btn-export:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); }
+        .btn-export.pdf { border-color: rgba(239,68,68,0.4); }
+        .btn-export.pdf:hover { background: rgba(239,68,68,0.1); }
+        .btn-export.xlsx { border-color: rgba(16,185,129,0.4); }
+        .btn-export.xlsx:hover { background: rgba(16,185,129,0.1); }
+
+        .template-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 16px; }
+        .template-card { background: rgba(15,23,42,0.5); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .template-card:hover { border-color: rgba(249,115,22,0.4); background: rgba(249,115,22,0.05); }
+        .template-card h4 { font-size: 0.9rem; margin-bottom: 4px; }
+        .template-card p { font-size: 0.72rem; color: var(--text-secondary); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
 </head>
 <body class="platinum-mode">
     <div class="app-container">
-        <!-- Sidebar Reutilizada -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="logo-section">
                 <i data-lucide="zap" style="color: var(--accent); width: 32px; height: 32px;"></i>
                 <h1 class="brand-name">MotoCar<span>CF</span></h1>
             </div>
             <nav class="main-nav">
-                <a href="index.html" class="nav-item"><i data-lucide="arrow-left"></i> Voltar</a>
-                <div class="nav-item active"><i data-lucide="upload-cloud"></i> Ingestão</div>
+                <a href="index.html" class="nav-item"><i data-lucide="layout-grid"></i> Dashboard</a>
+                <div class="nav-item active"><i data-lucide="upload-cloud"></i> Importar Dados</div>
             </nav>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
             <header class="top-header">
-                <div class="page-title">
-                    <h2 id="currentPageTitle">Ingestão de Dados Elite</h2>
-                    <p id="currentPageDesc">Suba suas planilhas para consolidação no Star Schema</p>
+                <div class="top-header-row">
+                    <div class="page-title">
+                        <h2>🏍️ Central de Dados MotoCarCF</h2>
+                        <p>Importe planilhas Excel e exporte relatórios PDF / XLSX em todos os módulos</p>
+                    </div>
+                    <div class="export-bar">
+                        <button class="btn-export pdf" onclick="exportarPDF('geral')">📄 Exportar PDF</button>
+                        <button class="btn-export xlsx" onclick="exportarExcel('geral')">📊 Exportar Excel</button>
+                    </div>
                 </div>
             </header>
 
-            <div class="glass" style="max-width: 800px; margin: 20px auto; padding: 40px;">
-                <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" style="border: 2px dashed var(--glass-border); border-radius: 24px; padding: 60px; text-align: center; cursor: pointer; transition: 0.3s; background: rgba(255,107,0,0.02);">
-                    <i data-lucide="file-up" style="width: 48px; height: 48px; color: var(--accent); margin-bottom: 16px;"></i>
-                    <h3 style="margin-bottom: 8px;">Arraste seu arquivo Excel</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 4px;">Ou clique para selecionar de uma pasta</p>
-                    <span style="font-size: 0.75rem; opacity: 0.6;">Suporta .xlsx, .csv (Padrão Alterdata/Linx)</span>
-                    <input type="file" id="fileInput" hidden accept=".xlsx, .xls, .csv">
-                </div>
+            <!-- Module Tabs -->
+            <div class="import-tabs">
+                <button class="import-tab active" onclick="selectTab('motos', this)">🏍️ Vendas Motos</button>
+                <button class="import-tab" onclick="selectTab('pecas', this)">🔧 Peças & Estoque</button>
+                <button class="import-tab" onclick="selectTab('dre', this)">📊 DRE Gerencial</button>
+                <button class="import-tab" onclick="selectTab('despesas', this)">💸 Despesas</button>
+                <button class="import-tab" onclick="selectTab('templates', this)">📋 Templates</button>
+            </div>
 
-                <div class="card-grid" style="margin-top: 40px;">
-                    <div class="glass stat-card" style="padding: 20px;">
-                        <div class="stat-info">
-                            <p style="font-size: 0.7rem;">Fato_Motos</p>
-                            <h4 id="status-motos" style="color: var(--text-secondary);">Aguardando...</h4>
-                        </div>
-                    </div>
-                    <div class="glass stat-card" style="padding: 20px;">
-                        <div class="stat-info">
-                            <p style="font-size: 0.7rem;">Fato_Pecas</p>
-                            <h4 id="status-pecas" style="color: var(--text-secondary);">Aguardando...</h4>
-                        </div>
-                    </div>
-                    <div class="glass stat-card" style="padding: 20px;">
-                        <div class="stat-info">
-                            <p style="font-size: 0.7rem;">Fato_Despesas</p>
-                            <h4 id="status-despesas" style="color: var(--text-secondary);">Aguardando...</h4>
-                        </div>
-                    </div>
-                </div>
+            <!-- TAB: Vendas Motos -->
+            <div class="tab-content active" id="tab-motos">
+                <div class="glass" style="padding: 32px; margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 6px;">📥 Importar Planilha de Vendas de Motos</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 24px;">Arraste o arquivo exportado do Linx/Alterdata. Colunas esperadas: <strong>Data, Modelo, Filial, Quantidade, Valor, CMC</strong></p>
 
-                <div id="previewArea" style="display: none; margin-top: 40px;">
-                    <h4 style="margin-bottom: 15px; border-left: 4px solid var(--accent); padding-left: 10px;">Prévia dos Dados</h4>
-                    <div style="overflow-x: auto; border: 1px solid var(--glass-border); border-radius: 12px; background: rgba(0,0,0,0.2);">
-                        <table id="previewTable" style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
-                            <thead id="previewHead"></thead>
-                            <tbody id="previewBody"></tbody>
-                        </table>
+                    <div class="drop-zone" id="dropMotos" onclick="document.getElementById('inputMotos').click()">
+                        <i data-lucide="file-spreadsheet" style="width: 52px; height: 52px;"></i>
+                        <h3 style="margin-bottom: 8px;">Arraste a planilha de Motos aqui</h3>
+                        <p style="color: var(--text-secondary);">Ou clique para selecionar o arquivo</p>
+                        <small style="opacity: 0.5; margin-top:8px; display:block;">.xlsx · .xls · .csv (Padrão Alterdata/Linx)</small>
+                        <input type="file" id="inputMotos" hidden accept=".xlsx,.xls,.csv" onchange="processFile(this, 'motos')">
                     </div>
-                    <button class="btn-import" onclick="consolidateData()" style="width: 100%; margin-top: 25px; background: linear-gradient(135deg, var(--accent), #ff9500); border: none; padding: 16px; border-radius: 12px; color: #fff; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(255,107,0,0.2);">🚀 CONSOLIDAR E GERAR DRE</button>
+
+                    <div class="slot-grid">
+                        <div class="slot-card" id="slot-datas"><div class="slot-icon">📅</div><div class="slot-label">Datas</div><div class="slot-status" id="st-datas">Aguardando</div></div>
+                        <div class="slot-card" id="slot-modelos"><div class="slot-icon">🏍️</div><div class="slot-label">Modelos</div><div class="slot-status" id="st-modelos">Aguardando</div></div>
+                        <div class="slot-card" id="slot-filiais"><div class="slot-icon">🏢</div><div class="slot-label">Filiais</div><div class="slot-status" id="st-filiais">Aguardando</div></div>
+                        <div class="slot-card" id="slot-valores"><div class="slot-icon">💰</div><div class="slot-label">Valores</div><div class="slot-status" id="st-valores">Aguardando</div></div>
+                    </div>
+
+                    <div id="preview-motos" style="display: none; margin-top: 32px;">
+                        <h4 style="margin-bottom: 12px; border-left: 4px solid var(--accent); padding-left: 10px;">Prévia — Primeiras Linhas Detectadas</h4>
+                        <div style="overflow-x: auto; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
+                            <table class="preview-table" style="width: 100%; border-collapse: collapse;">
+                                <thead id="head-motos"></thead>
+                                <tbody id="body-motos"></tbody>
+                            </table>
+                        </div>
+                        <button class="btn-consolidate" onclick="consolidar('motos')">🚀 CONSOLIDAR E ATUALIZAR COCKPIT</button>
+                        <div style="display:flex; gap:10px; margin-top: 12px;">
+                            <button class="btn-export pdf" style="flex:1;" onclick="exportarPDF('motos')">📄 Exportar PDF</button>
+                            <button class="btn-export xlsx" style="flex:1;" onclick="exportarExcel('motos')">📊 Exportar Excel</button>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- TAB: Peças -->
+            <div class="tab-content" id="tab-pecas">
+                <div class="glass" style="padding: 32px; margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 6px;">🔧 Importar Planilha de Peças & Estoque</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 24px;">Colunas esperadas: <strong>Referência, Descrição, Curva, Venda Mensal, Estoque</strong></p>
+                    <div class="drop-zone" id="dropPecas" onclick="document.getElementById('inputPecas').click()">
+                        <i data-lucide="package" style="width: 52px; height: 52px;"></i>
+                        <h3>Arraste a planilha de Peças aqui</h3>
+                        <p style="color: var(--text-secondary);">Ou clique para selecionar o arquivo</p>
+                        <input type="file" id="inputPecas" hidden accept=".xlsx,.xls,.csv" onchange="processFile(this, 'pecas')">
+                    </div>
+                    <div id="preview-pecas" style="display: none; margin-top: 32px;">
+                        <h4 style="margin-bottom: 12px; border-left: 4px solid var(--accent); padding-left: 10px;">Prévia — Dados de Estoque</h4>
+                        <div style="overflow-x: auto; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
+                            <table class="preview-table" style="width: 100%; border-collapse: collapse;">
+                                <thead id="head-pecas"></thead>
+                                <tbody id="body-pecas"></tbody>
+                            </table>
+                        </div>
+                        <button class="btn-consolidate" onclick="consolidar('pecas')">🚀 CONSOLIDAR E ATUALIZAR COCKPIT</button>
+                        <div style="display:flex; gap:10px; margin-top: 12px;">
+                            <button class="btn-export pdf" style="flex:1;" onclick="exportarPDF('pecas')">📄 Exportar PDF</button>
+                            <button class="btn-export xlsx" style="flex:1;" onclick="exportarExcel('pecas')">📊 Exportar Excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: DRE -->
+            <div class="tab-content" id="tab-dre">
+                <div class="glass" style="padding: 32px; margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 6px;">📊 Importar Planilha de DRE</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 24px;">Colunas esperadas: <strong>Conta, Valor, % Receita, Variação, Mês, Filial</strong></p>
+                    <div class="drop-zone" onclick="document.getElementById('inputDre').click()">
+                        <i data-lucide="bar-chart-4" style="width: 52px; height: 52px;"></i>
+                        <h3>Arraste a planilha de DRE aqui</h3>
+                        <p style="color: var(--text-secondary);">Ou clique para selecionar o arquivo</p>
+                        <input type="file" id="inputDre" hidden accept=".xlsx,.xls,.csv" onchange="processFile(this, 'dre')">
+                    </div>
+                    <div id="preview-dre" style="display: none; margin-top: 32px;">
+                        <h4 style="margin-bottom: 12px; border-left: 4px solid var(--accent); padding-left: 10px;">Prévia — DRE</h4>
+                        <div style="overflow-x: auto; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
+                            <table class="preview-table" style="width: 100%; border-collapse: collapse;">
+                                <thead id="head-dre"></thead>
+                                <tbody id="body-dre"></tbody>
+                            </table>
+                        </div>
+                        <button class="btn-consolidate" onclick="consolidar('dre')">🚀 CONSOLIDAR E ATUALIZAR COCKPIT</button>
+                        <div style="display:flex; gap:10px; margin-top: 12px;">
+                            <button class="btn-export pdf" style="flex:1;" onclick="exportarPDF('dre')">📄 Exportar PDF</button>
+                            <button class="btn-export xlsx" style="flex:1;" onclick="exportarExcel('dre')">📊 Exportar Excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: Despesas -->
+            <div class="tab-content" id="tab-despesas">
+                <div class="glass" style="padding: 32px; margin-bottom: 24px;">
+                    <h3 style="margin-bottom: 6px;">💸 Importar Planilha de Despesas</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 24px;">Colunas esperadas: <strong>Categoria, Valor, Mês, Filial</strong></p>
+                    <div class="drop-zone" onclick="document.getElementById('inputDesp').click()">
+                        <i data-lucide="trending-down" style="width: 52px; height: 52px;"></i>
+                        <h3>Arraste a planilha de Despesas aqui</h3>
+                        <p style="color: var(--text-secondary);">Ou clique para selecionar o arquivo</p>
+                        <input type="file" id="inputDesp" hidden accept=".xlsx,.xls,.csv" onchange="processFile(this, 'despesas')">
+                    </div>
+                    <div id="preview-despesas" style="display: none; margin-top: 32px;">
+                        <h4 style="margin-bottom: 12px; border-left: 4px solid var(--accent); padding-left: 10px;">Prévia — Despesas</h4>
+                        <div style="overflow-x: auto; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">
+                            <table class="preview-table" style="width: 100%; border-collapse: collapse;">
+                                <thead id="head-despesas"></thead>
+                                <tbody id="body-despesas"></tbody>
+                            </table>
+                        </div>
+                        <button class="btn-consolidate" onclick="consolidar('despesas')">🚀 CONSOLIDAR E ATUALIZAR COCKPIT</button>
+                        <div style="display:flex; gap:10px; margin-top: 12px;">
+                            <button class="btn-export pdf" style="flex:1;" onclick="exportarPDF('despesas')">📄 Exportar PDF</button>
+                            <button class="btn-export xlsx" style="flex:1;" onclick="exportarExcel('despesas')">📊 Exportar Excel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: Templates -->
+            <div class="tab-content" id="tab-templates">
+                <div class="glass" style="padding: 32px;">
+                    <h3 style="margin-bottom: 6px;">📋 Baixar Templates Oficiais</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 24px;">Baixe os modelos prontos, preencha com os dados da sua planilha atual e importe de volta aqui.</p>
+                    <div class="template-grid">
+                        <div class="template-card" onclick="downloadTemplate('motos')">
+                            <div style="font-size: 2rem;">🏍️</div>
+                            <h4>Vendas Motos</h4>
+                            <p>Padrão Linx/Alterdata</p>
+                        </div>
+                        <div class="template-card" onclick="downloadTemplate('pecas')">
+                            <div style="font-size: 2rem;">🔧</div>
+                            <h4>Peças & Estoque</h4>
+                            <p>Curva ABC + Giro</p>
+                        </div>
+                        <div class="template-card" onclick="downloadTemplate('dre')">
+                            <div style="font-size: 2rem;">📊</div>
+                            <h4>DRE Gerencial</h4>
+                            <p>Receitas e Despesas</p>
+                        </div>
+                        <div class="template-card" onclick="downloadTemplate('despesas')">
+                            <div style="font-size: 2rem;">💸</div>
+                            <h4>Centro de Custo</h4>
+                            <p>Despesas por Categoria</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
 
     <script>
         lucide.createIcons();
 
-        const fileInput = document.getElementById('fileInput');
-        const previewArea = document.getElementById('previewArea');
-
-        fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const data = evt.target.result;
-                const workbook = XLSX.read(data, { type: 'binary' });
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-                const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
-                processPreview(jsonData);
-                updateStatus('READY');
-            };
-            reader.readAsBinaryString(file);
-        });
-
-        function processPreview(data) {
-            previewArea.style.display = 'block';
-            const head = document.getElementById('previewHead');
-            const body = document.getElementById('previewBody');
-            head.innerHTML = '';
-            body.innerHTML = '';
-
-            if (data.length > 0) {
-                const cols = Object.keys(data[0]);
-                const trHead = document.createElement('tr');
-                cols.forEach(col => {
-                    const th = document.createElement('th');
-                    th.style.padding = '10px';
-                    th.style.textAlign = 'left';
-                    th.style.color = 'var(--text-secondary)';
-                    th.innerText = col;
-                    trHead.appendChild(th);
-                });
-                head.appendChild(trHead);
-
-                data.slice(0, 5).forEach(row => {
-                    const trBody = document.createElement('tr');
-                    cols.forEach(col => {
-                        const td = document.createElement('td');
-                        td.style.padding = '10px';
-                        td.style.borderTop = '1px solid var(--glass-border)';
-                        td.innerText = row[col];
-                        trBody.appendChild(td);
-                    });
-                    body.appendChild(trBody);
-                });
-            }
+        // ── TAB NAVIGATION ──────────────────────────────────────────────
+        function selectTab(tab, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.import-tab').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            btn.classList.add('active');
         }
 
-        function updateStatus(status) {
-            ['status-motos', 'status-pecas', 'status-despesas'].forEach(id => {
-                const el = document.getElementById(id);
-                el.innerText = '✅ Pronto';
-                el.style.color = 'var(--positive)';
+        // ── DRAG-AND-DROP ──────────────────────────────────────────────
+        ['dropMotos', 'dropPecas'].forEach(id => {
+            const zone = document.getElementById(id);
+            if (!zone) return;
+            zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+            zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+            zone.addEventListener('drop', e => {
+                e.preventDefault();
+                zone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file) processFileObject(file, id === 'dropMotos' ? 'motos' : 'pecas');
+            });
+        });
+
+        // ── FILE PROCESSING ──────────────────────────────────────────
+        function processFile(input, modulo) {
+            const file = input.files[0];
+            if (!file) return;
+            processFileObject(file, modulo);
+        }
+
+        function processFileObject(file, modulo) {
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const data = evt.target.result;
+                    const wb = XLSX.read(data, { type: 'binary' });
+                    const ws = wb.Sheets[wb.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(ws);
+
+                    // Save for export
+                    window['dados_' + modulo] = jsonData;
+
+                    renderPreview(jsonData, modulo);
+                    document.getElementById('preview-' + modulo).style.display = 'block';
+
+                    if (modulo === 'motos') updateSlots(jsonData);
+                } catch (err) {
+                    alert('Erro ao ler arquivo: ' + err.message);
+                }
+            };
+            reader.readAsBinaryString(file);
+        }
+
+        function renderPreview(data, modulo) {
+            const head = document.getElementById('head-' + modulo);
+            const body = document.getElementById('body-' + modulo);
+            if (!head || !body || data.length === 0) return;
+
+            const cols = Object.keys(data[0]);
+            head.innerHTML = '<tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr>';
+            body.innerHTML = data.slice(0, 8).map(row =>
+                '<tr>' + cols.map(c => `<td>${row[c] ?? ''}</td>`).join('') + '</tr>'
+            ).join('');
+        }
+
+        function updateSlots(data) {
+            const slots = {
+                'slot-datas': 'st-datas', 'slot-modelos': 'st-modelos',
+                'slot-filiais': 'st-filiais', 'slot-valores': 'st-valores'
+            };
+            Object.entries(slots).forEach(([card, status]) => {
+                document.getElementById(card).classList.add('done');
+                document.getElementById(status).innerText = `✅ ${data.length} registros`;
             });
         }
 
-        function consolidateData() {
-            alert('🚀 Dados consolidados com sucesso! Atualizando Cockpit...');
-            window.location.href = 'index.html';
+        // ── CONSOLIDAR ────────────────────────────────────────────────
+        function consolidar(modulo) {
+            const nomes = { motos: 'Vendas de Motos', pecas: 'Peças & Estoque', dre: 'DRE Gerencial', despesas: 'Despesas' };
+            const dados = window['dados_' + modulo];
+            if (!dados || dados.length === 0) { alert('Nenhum dado carregado.'); return; }
+
+            // Salva no localStorage para o Dashboard consumir
+            localStorage.setItem('motocar_dados_' + modulo, JSON.stringify(dados));
+
+            const btn = event.target;
+            btn.innerText = '✅ Consolidado! Redirecionando...';
+            btn.style.background = 'linear-gradient(135deg, var(--positive), #059669)';
+            setTimeout(() => { window.location.href = 'index.html'; }, 1400);
+        }
+
+        // ── EXPORTAR EXCEL ────────────────────────────────────────────
+        function exportarExcel(modulo) {
+            const nomes = { motos: 'Vendas Motos', pecas: 'Peças e Estoque', dre: 'DRE Gerencial', despesas: 'Despesas', geral: 'Relatório Geral' };
+            const dados = window['dados_' + modulo] || getDefaultData(modulo);
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(dados);
+            ws['!cols'] = Object.keys(dados[0] || {}).map(() => ({ wch: 20 }));
+            XLSX.utils.book_append_sheet(wb, ws, nomes[modulo] || modulo);
+            XLSX.writeFile(wb, `MotoCarCF_${nomes[modulo] || modulo}_${new Date().toLocaleDateString('pt-BR').replace(/\//g,'-')}.xlsx`);
+        }
+
+        function getDefaultData(modulo) {
+            const defaults = {
+                motos: [{ Data: '01/03/2026', Modelo: 'NXR 160 BROS', Filial: 'Matriz', Quantidade: 12, Valor: 'R$ 240.000', CMC: 'R$ 190.000' }],
+                pecas: [{ Referencia: 'SKU-001', Descricao: 'Óleo Motor 1L', Curva: 'A', Venda_Mensal: 150, Estoque: 320 }],
+                dre: [{ Conta: 'Receita Bruta', Valor: 'R$ 2.450.000', Margem: '100%', Variacao: '+14%' }],
+                despesas: [{ Categoria: 'Pessoal', Valor: 'R$ 430.000', Mes: 'Março', Filial: 'Grupo Consolidado' }],
+                geral: [{ Modulo: 'Visão Executiva', Receita: 'R$ 2.450.000', Lucro: 'R$ 420.000', ROI: '12.4%' }]
+            };
+            return defaults[modulo] || defaults.geral;
+        }
+
+        // ── EXPORTAR PDF ──────────────────────────────────────────────
+        function exportarPDF(modulo) {
+            const nomes = { motos: 'Vendas de Motos', pecas: 'Peças & Estoque', dre: 'DRE Gerencial', despesas: 'Despesas', geral: 'Relatório Geral MotoCarCF' };
+            const dados = window['dados_' + modulo] || getDefaultData(modulo);
+            const titulo = nomes[modulo] || modulo;
+
+            const cols = Object.keys(dados[0]);
+            const rows = dados.map(r => `<tr>${cols.map(c => `<td>${r[c] ?? ''}</td>`).join('')}</tr>`).join('');
+
+            const pw = window.open('', '_blank');
+            pw.document.write(`
+                <!DOCTYPE html><html><head>
+                <title>MotoCarCF | ${titulo}</title>
+                <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+                <style>
+                    body { font-family: 'Outfit', sans-serif; background: #fff; color: #111; padding: 32px; }
+                    h1 { color: #f97316; font-size: 1.6rem; margin-bottom: 4px; }
+                    .meta { color: #666; font-size: 0.85rem; margin-bottom: 24px; }
+                    table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+                    th { background: #f97316; color: #fff; padding: 10px 14px; text-align: left; font-size: 0.8rem; }
+                    td { padding: 9px 14px; border-bottom: 1px solid #eee; font-size: 0.82rem; }
+                    tr:nth-child(even) td { background: #f9fafb; }
+                    .footer { margin-top: 40px; font-size: 0.72rem; color: #aaa; text-align: center; border-top: 1px solid #eee; padding-top: 16px; }
+                    @media print { body { padding: 16px; } }
+                </style>
+                </head><body>
+                <h1>🏍️ MotoCarCF | ${titulo}</h1>
+                <div class="meta">Gerado em: ${new Date().toLocaleString('pt-BR')} &nbsp;|&nbsp; Total: ${dados.length} registros</div>
+                <table>
+                    <thead><tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr></thead>
+                    <tbody>${rows}</tbody>
+                </table>
+                <div class="footer">MotoCarCF Cockpit Elite &nbsp;·&nbsp; Documento Confidencial</div>
+                <script>window.onload = () => window.print();<\/script>
+                </body></html>
+            `);
+            pw.document.close();
+        }
+
+        // ── TEMPLATES ────────────────────────────────────────────────
+        function downloadTemplate(modulo) {
+            const templates = {
+                motos: [{ Data: '01/03/2026', Modelo: 'NXR 160 BROS', Filial: 'Matriz', Quantidade: 12, Valor_Venda: 20000, Custo_CMC: 16000 }],
+                pecas: [{ Referencia: 'SKU-001', Descricao: 'Óleo Motor 1L', Curva: 'A', Venda_Mensal_R$: 3000, Estoque_Qtd: 120 }],
+                dre: [{ Conta: 'Receita Bruta', Valor_R$: 2450000, Margem_pct: 100, Variacao_pct: 14, Mes: 'Março', Filial: 'Grupo' }],
+                despesas: [{ Categoria: 'Pessoal', Valor_R$: 430000, Mes: 'Março', Filial: 'Grupo Consolidado' }]
+            };
+            const nomes = { motos: 'Template_Vendas_Motos', pecas: 'Template_Pecas_Estoque', dre: 'Template_DRE', despesas: 'Template_Despesas' };
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(templates[modulo]);
+            ws['!cols'] = Object.keys(templates[modulo][0]).map(() => ({ wch: 22 }));
+            XLSX.utils.book_append_sheet(wb, ws, nomes[modulo]);
+            XLSX.writeFile(wb, nomes[modulo] + '_MotoCarCF.xlsx');
         }
     </script>
-</body>
-</html>
 </body>
 </html>
