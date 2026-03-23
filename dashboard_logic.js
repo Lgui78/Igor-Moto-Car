@@ -57,86 +57,97 @@ const PÁGINAS = {
         desc: "Resultado Líquido do Grupo e Visão de Margem",
         content: `
             <div class="card-grid">
-                <div class="glass stat-card">
-                    <p class="label">RB BRUTA</p>
-                    <h3 class="value glow">R$ 2.450.000</h3>
+                <div class="glass stat-card" style="border-left:4px solid var(--accent);padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Receita Bruta</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;" class="glow">R$ 2.45M</h3>
+                    <span style="font-size:0.78rem;color:var(--positive);font-weight:700;">↑ +14% vs Fev/26</span>
                 </div>
-                <div class="glass stat-card">
-                    <p class="label">IMPOSTOS / DED</p>
-                    <h3 class="value danger">R$ (310.000)</h3>
+                <div class="glass stat-card" style="border-left:4px solid var(--negative);padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Impostos / Ded.</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;color:var(--negative);">R$ (310k)</h3>
+                    <span style="font-size:0.78rem;color:var(--negative);font-weight:700;">↓ 2.1% monitorar</span>
                 </div>
-                <div class="glass stat-card">
-                    <p class="label">LB LÍQUIDO</p>
-                    <h3 class="value success">R$ 1.250.000</h3>
+                <div class="glass stat-card" style="border-left:4px solid var(--positive);padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Lucro Bruto</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;color:var(--positive);">R$ 1.25M</h3>
+                    <span style="font-size:0.78rem;color:var(--positive);font-weight:700;">↑ +8% vs Fev/26</span>
                 </div>
-                <div class="glass stat-card">
-                    <p class="label">MARGEM %</p>
-                    <h3 class="value glow">51%</h3>
+                <div class="glass stat-card" style="border-left:4px solid #a855f7;padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Margem Líq. %</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;" class="glow">51%</h3>
+                    <span style="font-size:0.78rem;color:#a855f7;font-weight:700;">✅ Meta: 45%</span>
                 </div>
             </div>
 
             <div class="glass card-detailed">
-                <div class="card-header">
-                    <h3>Detalhamento Contábil (Cliques na linha para ver participação)</h3>
+                <div class="card-header" style="padding:20px 28px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;">
+                    <h3 style="font-size:1rem;font-weight:800;">📊 DRE Gerencial — Detalhamento Contábil</h3>
+                    <span style="font-size:0.75rem;color:var(--text-secondary);">Clique na linha para ver participação por filial</span>
                 </div>
-                <div class="table-container">
-                    <table class="dre-table">
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
                         <thead>
-                            <tr>
-                                <th>CONTA</th>
-                                <th>MARÇO 2026</th>
-                                <th>PART. GRUPO %</th>
-                                <th>VERSUS FEVEREIRO</th>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;">CONTA</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;">MARÇO 2026</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;">PART. GRUPO %</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;">VS FEVEREIRO</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="interactive" onclick="openParticipation('Receita de Vendas - Motos', 1500000)">
-                                <td>(+) Receita de Vendas - Motos</td>
-                                <td>R$ 1.500.000</td>
-                                <td>61%</td>
-                                <td class="success">↑ 12.5%</td>
+                            <tr style="cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='rgba(249,115,22,0.06)'" onmouseleave="this.style.background='transparent'" onclick="openParticipation('Receita de Vendas - Motos', 1500000)">
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:500;">(+) Receita de Vendas – Motos</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:600;">R$ 1.500.000</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">61%</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--positive);font-weight:700;">↑ 12.5%</td>
                             </tr>
-                            <tr class="interactive" onclick="openParticipation('Receita de Peças & Acc', 450000)">
-                                <td>(+) Receita de Peças & Acc</td>
-                                <td>R$ 450.000</td>
-                                <td>18%</td>
-                                <td class="success">↑ 5.2%</td>
+                            <tr style="cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='rgba(249,115,22,0.06)'" onmouseleave="this.style.background='transparent'" onclick="openParticipation('Receita de Peças & Acc', 450000)">
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:500;">(+) Receita de Peças & Acc</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:600;">R$ 450.000</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">18%</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--positive);font-weight:700;">↑ 5.2%</td>
                             </tr>
-                            <tr class="section-divider">
-                                <td>(=) RECEITA BRUTA OPERACIONAL</td>
-                                <td class="glow">R$ 2.450.000</td>
-                                <td>100%</td>
-                                <td>-</td>
+                            <tr style="background:rgba(249,115,22,0.08);border-top:1px solid rgba(249,115,22,0.2);">
+                                <td style="padding:14px 20px;color:var(--accent);font-weight:800;">(=) RECEITA BRUTA OPERACIONAL</td>
+                                <td style="padding:14px 20px;color:var(--accent);font-weight:800;" class="glow">R$ 2.450.000</td>
+                                <td style="padding:14px 20px;color:var(--accent);font-weight:700;">100%</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">—</td>
                             </tr>
-                            <tr class="interactive" onclick="openParticipation('Impostos e Deduções', -310000)">
-                                <td>(-) Impostos e Deduções</td>
-                                <td class="danger">R$ (310.000)</td>
-                                <td>-12.6%</td>
-                                <td class="danger">↓ 2.1%</td>
+                            <tr style="cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='rgba(249,115,22,0.06)'" onmouseleave="this.style.background='transparent'" onclick="openParticipation('Impostos e Deduções', -310000)">
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:500;">(-) Impostos e Deduções</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--negative);font-weight:600;">R$ (310.000)</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">-12.6%</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--negative);font-weight:700;">↓ 2.1%</td>
                             </tr>
-                            <tr class="interactive" onclick="openParticipation('Custos Variáveis', -890000)">
-                                <td>(-) CMV (Custo de Mercadoria)</td>
-                                <td class="danger">R$ (890.000)</td>
-                                <td>-36.3%</td>
-                                <td class="danger">↓ 4.8%</td>
+                            <tr style="cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='rgba(249,115,22,0.06)'" onmouseleave="this.style.background='transparent'" onclick="openParticipation('Custos Variáveis', -890000)">
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:500;">(-) CMV — Custo de Mercadoria</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--negative);font-weight:600;">R$ (890.000)</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">-36.3%</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--negative);font-weight:700;">↓ 4.8%</td>
                             </tr>
-                            <tr class="section-divider">
-                                <td>(=) LUCRO BRUTO OPERACIONAL</td>
-                                <td class="glow">R$ 1.250.000</td>
-                                <td>51%</td>
-                                <td>-</td>
+                            <tr style="background:rgba(16,185,129,0.08);border-top:1px solid rgba(16,185,129,0.2);">
+                                <td style="padding:14px 20px;color:var(--positive);font-weight:800;">(=) LUCRO BRUTO OPERACIONAL</td>
+                                <td style="padding:14px 20px;color:var(--positive);font-weight:800;">R$ 1.250.000</td>
+                                <td style="padding:14px 20px;color:var(--positive);font-weight:700;">51%</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">—</td>
                             </tr>
-                            <tr class="interactive" onclick="openParticipation('Despesas Comerciais', -120000)">
-                                <td>(-) Despesas Comerciais</td>
-                                <td class="danger">R$ (120.000)</td>
-                                <td>-4.9%</td>
-                                <td class="success">↑ 1.5%</td>
+                            <tr style="cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='rgba(249,115,22,0.06)'" onmouseleave="this.style.background='transparent'" onclick="openParticipation('Despesas Comerciais', -120000)">
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:500;">(-) Despesas Comerciais</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--negative);font-weight:600;">R$ (120.000)</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">-4.9%</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--positive);font-weight:700;">↑ 1.5%</td>
                             </tr>
-                            <tr class="interactive" onclick="openParticipation('Despesas Administrativas', -230000)">
-                                <td>(-) Despesas Administrativas</td>
-                                <td class="danger">R$ (230.000)</td>
-                                <td>-9.3%</td>
-                                <td class="success">↑ 0.8%</td>
+                            <tr style="cursor:pointer;transition:background 0.2s;" onmouseenter="this.style.background='rgba(249,115,22,0.06)'" onmouseleave="this.style.background='transparent'" onclick="openParticipation('Despesas Administrativas', -230000)">
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:500;">(-) Despesas Administrativas</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--negative);font-weight:600;">R$ (230.000)</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">-9.3%</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--positive);font-weight:700;">↑ 0.8%</td>
+                            </tr>
+                            <tr style="background:rgba(99,102,241,0.1);border-top:1px solid rgba(99,102,241,0.3);">
+                                <td style="padding:16px 20px;color:#818cf8;font-weight:800;font-size:1rem;">(=) LUCRO LÍQUIDO</td>
+                                <td style="padding:16px 20px;color:#818cf8;font-weight:800;font-size:1rem;">R$ 420.000</td>
+                                <td style="padding:16px 20px;color:#818cf8;font-weight:700;">17.1%</td>
+                                <td style="padding:16px 20px;color:var(--positive);font-weight:800;">↑ +8%</td>
                             </tr>
                         </tbody>
                     </table>
@@ -236,76 +247,81 @@ const PÁGINAS = {
         `
     },
     pecas: {
-        title: "Curva ABC: Peças & Acessórios",
+        title: "Curva ABC: Peças & Acessórios 🔧",
         desc: "Inteligência de Inventário e Giro Financeiro",
         content: `
             <div class="card-grid">
-                <div class="glass stat-card">
-                    <p class="label">VALOR EM ESTOQUE</p>
-                    <h3 class="value glow">R$ 1.84M</h3>
+                <div class="glass stat-card" style="border-left:4px solid var(--accent);padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Valor em Estoque</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;" class="glow">R$ 1.84M</h3>
+                    <span style="font-size:0.78rem;color:var(--text-secondary);font-weight:600;">Total imobilizado</span>
                 </div>
-                <div class="glass stat-card">
-                    <p class="label">GIRO MENSAL</p>
-                    <h3 class="value success">4.2x</h3>
+                <div class="glass stat-card" style="border-left:4px solid var(--positive);padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Giro Mensal</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;color:var(--positive);">4.2x</h3>
+                    <span style="font-size:0.78rem;color:var(--positive);font-weight:700;">✅ Excelente giro</span>
                 </div>
-                <div class="glass stat-card">
-                    <p class="label">MARGEM ABC (A)</p>
-                    <h3 class="value glow">42%</h3>
+                <div class="glass stat-card" style="border-left:4px solid #a855f7;padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Margem ABC (A)</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;color:#a855f7;">42%</h3>
+                    <span style="font-size:0.78rem;color:#a855f7;font-weight:700;">↑ Acima da meta</span>
                 </div>
-                <div class="glass stat-card">
-                    <p class="label">RUPTURAS</p>
-                    <h3 class="value danger">1.2%</h3>
+                <div class="glass stat-card" style="border-left:4px solid var(--negative);padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Rupturas</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;color:var(--negative);">1.2%</h3>
+                    <span style="font-size:0.78rem;color:var(--negative);font-weight:700;">⚠️ Monitorar</span>
                 </div>
             </div>
 
             <div class="glass card-detailed">
-                <div class="card-header">
-                    <h3>Análise Curva ABC (Mês Corrente)</h3>
+                <div style="padding:20px 28px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;">
+                    <h3 style="font-size:1rem;font-weight:800;">🔧 Análise Curva ABC — Março 2026</h3>
+                    <span style="font-size:0.75rem;color:var(--text-secondary);">A = 80% do faturamento · B = Intermediário · C = Baixo giro</span>
                 </div>
-                <div class="table-container">
-                    <table class="dre-table">
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
                         <thead>
-                            <tr>
-                                <th>CURVA</th>
-                                <th>ITEM / REFERÊNCIA</th>
-                                <th>VND. ACUMULADA</th>
-                                <th>SHARE RECO %</th>
-                                <th>MARGEM BRUTA</th>
-                                <th>ESTOQUE FÍSICO</th>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;">CURVA</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;">ITEM / REFERÊNCIA</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;">VND. ACUMULADA</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;">SHARE %</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;">MARGEM BRUTA</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;">ESTOQUE FÍSICO</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><span class="status active" style="background: rgba(249,115,22,0.2); color: var(--accent); padding: 4px 8px; border-radius: 4px; font-weight:800;">A</span></td>
-                                <td>Pneu Pirelli MT60 - 110/90</td>
-                                <td>R$ 45.300</td>
-                                <td>18.2%</td>
-                                <td class="success">42%</td>
-                                <td>142 un</td>
+                            <tr style="transition:background 0.2s;" onmouseenter="this.style.background='rgba(249,115,22,0.05)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="background:rgba(249,115,22,0.2);color:var(--accent);padding:5px 12px;border-radius:8px;font-weight:800;font-size:0.85rem;">A</span></td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:600;">Pneu Pirelli MT60 - 110/90</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:600;">R$ 45.300</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">18.2%</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">42%</span></td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">142 un</td>
                             </tr>
-                            <tr>
-                                <td><span class="status active" style="background: rgba(249,115,22,0.2); color: var(--accent); padding: 4px 8px; border-radius: 4px; font-weight:800;">A</span></td>
-                                <td>Kit Transmissão Honda Original</td>
-                                <td>R$ 38.100</td>
-                                <td>15.4%</td>
-                                <td class="success">35%</td>
-                                <td>89 un</td>
+                            <tr style="transition:background 0.2s;" onmouseenter="this.style.background='rgba(249,115,22,0.05)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="background:rgba(249,115,22,0.2);color:var(--accent);padding:5px 12px;border-radius:8px;font-weight:800;font-size:0.85rem;">A</span></td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:600;">Kit Transmissão Honda Original</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:600;">R$ 38.100</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">15.4%</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">35%</span></td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">89 un</td>
                             </tr>
-                            <tr>
-                                <td><span class="status active" style="background: rgba(99,102,241,0.2); color: #818cf8; padding: 4px 8px; border-radius: 4px; font-weight:800;">B</span></td>
-                                <td>Capacete LS2 Stream Evo</td>
-                                <td>R$ 12.400</td>
-                                <td>5.1%</td>
-                                <td class="success">48%</td>
-                                <td>34 un</td>
+                            <tr style="transition:background 0.2s;" onmouseenter="this.style.background='rgba(99,102,241,0.05)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="background:rgba(99,102,241,0.2);color:#818cf8;padding:5px 12px;border-radius:8px;font-weight:800;font-size:0.85rem;">B</span></td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:600;">Capacete LS2 Stream Evo</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-weight:600;">R$ 12.400</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">5.1%</td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);"><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">48%</span></td>
+                                <td style="padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text-secondary);">34 un</td>
                             </tr>
-                            <tr>
-                                <td><span class="status active" style="background: rgba(255,255,255,0.05); color: #94a3b8; padding: 4px 8px; border-radius: 4px; font-weight:800;">C</span></td>
-                                <td>Lâmpada de Farol (Genérica)</td>
-                                <td>R$ 1.200</td>
-                                <td>0.4%</td>
-                                <td class="danger">18%</td>
-                                <td>412 un</td>
+                            <tr style="transition:background 0.2s;" onmouseenter="this.style.background='rgba(255,255,255,0.02)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;"><span style="background:rgba(255,255,255,0.06);color:#94a3b8;padding:5px 12px;border-radius:8px;font-weight:800;font-size:0.85rem;">C</span></td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">Lâmpada de Farol (Genérica)</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">R$ 1.200</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">0.4%</td>
+                                <td style="padding:14px 20px;"><span style="background:rgba(239,68,68,0.15);color:var(--negative);padding:4px 10px;border-radius:8px;font-weight:700;">18%</span></td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">412 un</td>
                             </tr>
                         </tbody>
                     </table>
