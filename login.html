@@ -130,7 +130,7 @@
             <h1 class="brand-name" style="font-size: 2.2rem; letter-spacing: -2px;">MotoCar<span>CF</span></h1>
         </div>
         
-        <form id="loginForm">
+        <div id="loginForm">
             <div class="form-group">
                 <label>E-mail Master (Diretoria)</label>
                 <input type="email" id="email" placeholder="admin@cfcontabilidade.com" required>
@@ -139,9 +139,9 @@
                 <label>Chave de Acesso</label>
                 <input type="password" id="password" placeholder="••••••••" required>
             </div>
-            <button type="submit" class="login-btn">INICIAR COCKPIT 🚀</button>
+            <button type="button" class="login-btn" id="btnEntrar">INICIAR COCKPIT 🚀</button>
             <p id="errorMsg" class="error-msg" style="display:none; color: var(--danger); margin-top: 15px;">Acesso Negado: Credenciais inválidas.</p>
-        </form>
+        </div>
 
         <p style="margin-top: 30px; font-size: 0.75rem; color: var(--text-secondary);">
             Acesso restrito a administradores Moto Car.
@@ -151,8 +151,7 @@
     <script>
         lucide.createIcons();
 
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
-            e.preventDefault();
+        document.getElementById('btnEntrar').addEventListener('click', () => {
             
             // Tratamento à prova de balas para erros de digitação e espaços invisíveis
             const email = document.getElementById('email').value.trim().toLowerCase();
