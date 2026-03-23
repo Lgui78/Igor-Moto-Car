@@ -3,157 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moto Car | Central de Importação de Dados</title>
+    <title>REDLINE BI | Ingestão Elite</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <style>
-        .import-container {
-            max-width: 900px;
-            margin: 40px auto;
-            text-align: center;
-        }
-        .upload-zone {
-            border: 2px dashed var(--glass-border);
-            border-radius: 24px;
-            padding: 60px 40px;
-            background: var(--glass);
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .upload-zone:hover {
-            border-color: var(--accent);
-            background: rgba(255, 107, 0, 0.05);
-            transform: translateY(-5px);
-        }
-        .upload-icon {
-            width: 64px;
-            height: 64px;
-            color: var(--accent);
-            margin-bottom: 20px;
-        }
-        .file-input {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0;
-            cursor: pointer;
-        }
-        .mapping-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 40px;
-        }
-        .mapping-card {
-            background: var(--glass);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid var(--glass-border);
-            text-align: left;
-        }
-        .mapping-card h4 {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .mapping-status {
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        .status-ready { color: var(--positive); }
-        .status-waiting { color: var(--text-secondary); }
-
-        .btn-consolidate {
-            background: linear-gradient(135deg, var(--accent), #ff9500);
-            color: white;
-            padding: 16px 48px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            margin-top: 40px;
-            cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255, 107, 0, 0.3);
-            transition: 0.3s;
-            display: none;
-        }
-        .btn-consolidate:hover { transform: scale(1.05); }
-
-        .preview-area {
-            margin-top: 40px;
-            text-align: left;
-            display: none;
-        }
-        .preview-table-container {
-            overflow-x: auto;
-            border-radius: 12px;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th { padding: 12px; font-size: 0.75rem; color: var(--text-secondary); text-align: left; border-bottom: 1px solid var(--glass-border); }
-        td { padding: 12px; font-size: 0.8rem; border-bottom: 1px solid var(--glass-border); }
-    </style>
 </head>
-<body>
+<body class="platinum-mode">
     <div class="app-container">
-        <!-- Sidebar Reutilizado -->
+        <!-- Sidebar Reutilizada -->
         <aside class="sidebar">
             <div class="logo-section">
-                <img src="motocar_hero_logo.png" alt="Moto Car Logo" class="app-logo">
-<body class="platinum-mode">
-    <div class="app-container" style="justify-content: center; align-items: center;">
-        <div class="glass import-card animate-slide-up">
-            <header class="import-header">
-                <a href="index.html" class="back-link"><i data-lucide="chevron-left"></i> Voltar ao Dashboard</a>
-                <div class="import-title">
-                    <i data-lucide="upload-cloud" class="pulse-icon" style="width: 48px; height: 48px; color: var(--accent);"></i>
-                    <h1>Ingestão de Dados Elite</h1>
-                    <p>Suba suas planilhas para consolidação no Star Schema</p>
+                <i data-lucide="zap" style="color: var(--accent); width: 32px; height: 32px;"></i>
+                <h1 class="brand-name">REDLINE<span>BI</span></h1>
+            </div>
+            <nav class="main-nav">
+                <a href="index.html" class="nav-item"><i data-lucide="arrow-left"></i> Voltar</a>
+                <div class="nav-item active"><i data-lucide="upload-cloud"></i> Ingestão</div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="page-title">
+                    <h2 id="currentPageTitle">Ingestão de Dados Elite</h2>
+                    <p id="currentPageDesc">Suba suas planilhas para consolidação no Star Schema</p>
                 </div>
             </header>
 
-            <div class="import-sections">
-                <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-                    <i data-lucide="file-up" style="width: 40px; height: 40px; margin-bottom: 16px;"></i>
-                    <p>Arraste seu arquivo Excel ou <strong>clique para selecionar</strong></p>
-                    <span>Suporta .xlsx, .csv (Padrão Alterdata/Linx)</span>
+            <div class="glass" style="max-width: 800px; margin: 20px auto; padding: 40px;">
+                <div class="upload-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" style="border: 2px dashed var(--glass-border); border-radius: 24px; padding: 60px; text-align: center; cursor: pointer; transition: 0.3s; background: rgba(255,107,0,0.02);">
+                    <i data-lucide="file-up" style="width: 48px; height: 48px; color: var(--accent); margin-bottom: 16px;"></i>
+                    <h3 style="margin-bottom: 8px;">Arraste seu arquivo Excel</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 4px;">Ou clique para selecionar de uma pasta</p>
+                    <span style="font-size: 0.75rem; opacity: 0.6;">Suporta .xlsx, .csv (Padrão Alterdata/Linx)</span>
                     <input type="file" id="fileInput" hidden accept=".xlsx, .xls, .csv">
                 </div>
 
-                <div class="mapping-grid">
-                    <div class="mapping-card">
-                        <h4><i data-lucide="car"></i> Fato_Motos</h4>
-                        <span class="mapping-status status-waiting" id="status-motos">Aguardando arquivo...</span>
+                <div class="card-grid" style="margin-top: 40px;">
+                    <div class="glass stat-card" style="padding: 20px;">
+                        <div class="stat-info">
+                            <p style="font-size: 0.7rem;">Fato_Motos</p>
+                            <h4 id="status-motos" style="color: var(--text-secondary);">Aguardando...</h4>
+                        </div>
                     </div>
-                    <div class="mapping-card">
-                        <h4><i data-lucide="shopping-bag"></i> Fato_Pecas</h4>
-                        <span class="mapping-status status-waiting" id="status-pecas">Aguardando arquivo...</span>
+                    <div class="glass stat-card" style="padding: 20px;">
+                        <div class="stat-info">
+                            <p style="font-size: 0.7rem;">Fato_Pecas</p>
+                            <h4 id="status-pecas" style="color: var(--text-secondary);">Aguardando...</h4>
+                        </div>
                     </div>
-                    <div class="mapping-card">
-                        <h4><i data-lucide="trending-down"></i> Fato_Despesas</h4>
-                        <span class="mapping-status status-waiting" id="status-despesas">Aguardando arquivo...</span>
+                    <div class="glass stat-card" style="padding: 20px;">
+                        <div class="stat-info">
+                            <p style="font-size: 0.7rem;">Fato_Despesas</p>
+                            <h4 id="status-despesas" style="color: var(--text-secondary);">Aguardando...</h4>
+                        </div>
                     </div>
                 </div>
 
-                <div class="preview-area" id="previewArea">
-                    <h3 style="margin-bottom: 16px; border-left: 4px solid var(--accent); padding-left: 12px">Prévia dos Dados Consolidados</h3>
-                    <div class="preview-table-container">
-                        <table id="previewTable">
+                <div id="previewArea" style="display: none; margin-top: 40px;">
+                    <h4 style="margin-bottom: 15px; border-left: 4px solid var(--accent); padding-left: 10px;">Prévia dos Dados</h4>
+                    <div style="overflow-x: auto; border: 1px solid var(--glass-border); border-radius: 12px; background: rgba(0,0,0,0.2);">
+                        <table id="previewTable" style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
                             <thead id="previewHead"></thead>
                             <tbody id="previewBody"></tbody>
                         </table>
                     </div>
-                    <button class="btn-consolidate" id="consolidateBtn" onclick="consolidateData()">🚀 CONSOLIDAR E GERAR DRE</button>
+                    <button class="btn-import" onclick="consolidateData()" style="width: 100%; margin-top: 25px; background: linear-gradient(135deg, var(--accent), #ff9500); border: none; padding: 16px; border-radius: 12px; color: #fff; font-weight: 800; cursor: pointer; box-shadow: 0 10px 20px rgba(255,107,0,0.2);">🚀 CONSOLIDAR E GERAR DRE</button>
                 </div>
             </div>
         </main>
@@ -162,11 +79,10 @@
     <script>
         lucide.createIcons();
 
-        const excelInput = document.getElementById('excelInput');
+        const fileInput = document.getElementById('fileInput');
         const previewArea = document.getElementById('previewArea');
-        const consolidateBtn = document.getElementById('consolidateBtn');
 
-        excelInput.addEventListener('change', function(e) {
+        fileInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (!file) return;
 
@@ -186,28 +102,30 @@
 
         function processPreview(data) {
             previewArea.style.display = 'block';
-            consolidateBtn.style.display = 'inline-block';
-            
             const head = document.getElementById('previewHead');
             const body = document.getElementById('previewBody');
-            
             head.innerHTML = '';
             body.innerHTML = '';
 
             if (data.length > 0) {
                 const cols = Object.keys(data[0]);
-                const tr = document.createElement('tr');
+                const trHead = document.createElement('tr');
                 cols.forEach(col => {
                     const th = document.createElement('th');
+                    th.style.padding = '10px';
+                    th.style.textAlign = 'left';
+                    th.style.color = 'var(--text-secondary)';
                     th.innerText = col;
-                    tr.appendChild(th);
+                    trHead.appendChild(th);
                 });
-                head.appendChild(tr);
+                head.appendChild(trHead);
 
                 data.slice(0, 5).forEach(row => {
                     const trBody = document.createElement('tr');
                     cols.forEach(col => {
                         const td = document.createElement('td');
+                        td.style.padding = '10px';
+                        td.style.borderTop = '1px solid var(--glass-border)';
                         td.innerText = row[col];
                         trBody.appendChild(td);
                     });
@@ -217,18 +135,19 @@
         }
 
         function updateStatus(status) {
-            const ids = ['status-motos', 'status-pecas', 'status-despesas'];
-            ids.forEach(id => {
+            ['status-motos', 'status-pecas', 'status-despesas'].forEach(id => {
                 const el = document.getElementById(id);
-                el.innerText = '✅ Dados Mapeados';
-                el.className = 'mapping-status status-ready';
+                el.innerText = '✅ Pronto';
+                el.style.color = 'var(--positive)';
             });
         }
 
         function consolidateData() {
-            alert('🚀 Dados consolidados com sucesso! Gerando métricas de DRE e Sazonalidade...');
-            window.location.href = 'index.html?status=data_imported';
+            alert('🚀 Dados consolidados com sucesso! Atualizando Cockpit...');
+            window.location.href = 'index.html';
         }
     </script>
+</body>
+</html>
 </body>
 </html>
