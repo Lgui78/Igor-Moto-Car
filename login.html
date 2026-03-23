@@ -151,15 +151,21 @@
 
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value.trim();
 
-            // 🛡️ TRAVA DE SEGURANÇA (Hardcoded para o protótipo premium)
-            // Futuro: Conectar com Supabase/Firebase
-            if (email === 'diretoria@motocar.com.br' && password === 'admin123') {
+            console.log("Tentativa de login:", email);
+
+            // 🛡️ TRAVA DE SEGURANÇA MESTRE
+            const allowedEmails = ['diretoria@motocar.com.br', 'admin@motocar.com.br'];
+            const masterPass = 'admin123';
+
+            if (allowedEmails.includes(email) && password === masterPass) {
+                console.log("Acesso concedido!");
                 localStorage.setItem('motocar_session', 'authenticated');
-                location.href = 'index.html';
+                window.location.href = 'index.html';
             } else {
+                console.error("Acesso negado: Credenciais incorretas");
                 const err = document.getElementById('errorMsg');
                 err.style.display = 'block';
                 setTimeout(() => err.style.display = 'none', 3000);
