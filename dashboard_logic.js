@@ -160,89 +160,91 @@ const PÁGINAS = {
         desc: "Performance por Modelos, Devoluções e Rentabilidade",
         content: `
             <div class="card-grid">
-                <div class="glass stat-card" style="border-left: 3px solid var(--accent);">
-                    <p class="label">Unidades Vendidas</p>
-                    <h3 class="value glow">142</h3>
-                    <span class="delta positive">↑ 19% vs mês anterior</span>
+                <div class="glass stat-card" style="border-left:4px solid var(--accent);padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Unidades Vendidas</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;" class="glow">142</h3>
+                    <span style="font-size:0.78rem;color:var(--positive);font-weight:700;">↑ 19% vs mês anterior</span>
                 </div>
-                <div class="glass stat-card" style="border-left: 3px solid var(--positive);">
-                    <p class="label">Ticket Médio</p>
-                    <h3 class="value" style="color: var(--positive);">R$ 18.250</h3>
-                    <span class="delta positive">↑ Estável</span>
+                <div class="glass stat-card" style="border-left:4px solid var(--positive);padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Ticket Médio</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;color:var(--positive);">R$ 18.250</h3>
+                    <span style="font-size:0.78rem;color:var(--positive);font-weight:700;">↑ Estável</span>
                 </div>
-                <div class="glass stat-card" style="border-left: 3px solid #a855f7;">
-                    <p class="label">Margem Média</p>
-                    <h3 class="value" style="color: #a855f7;">14.2%</h3>
-                    <span class="delta positive">↑ Meta: 12%</span>
+                <div class="glass stat-card" style="border-left:4px solid #a855f7;padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Margem Média</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;color:#a855f7;">14.2%</h3>
+                    <span style="font-size:0.78rem;color:#a855f7;font-weight:700;">↑ Meta: 12%</span>
                 </div>
-                <div class="glass stat-card" style="border-left: 3px solid var(--negative);">
-                    <p class="label">Devoluções</p>
-                    <h3 class="value danger">3.1%</h3>
-                    <span class="delta negative">↓ Monitorar</span>
+                <div class="glass stat-card" style="border-left:4px solid var(--negative);padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Devoluções</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;color:var(--negative);">3.1%</h3>
+                    <span style="font-size:0.78rem;color:var(--negative);font-weight:700;">↓ Monitorar</span>
                 </div>
             </div>
 
             <div class="glass card-detailed">
-                <div class="card-header">
-                    <h3><i data-lucide="bar-chart-4" style="color:var(--accent);vertical-align:middle;"></i>&nbsp; Ranking de Rentabilidade por Modelo</h3>
+                <div style="padding:20px 28px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;">
+                    <h3 style="font-size:1rem;font-weight:800;">🏆 Ranking de Rentabilidade por Modelo</h3>
                     <span style="font-size:0.75rem;color:var(--text-secondary);">Março 2026</span>
                 </div>
-                <table class="dre-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>MODELO / SÉRIE</th>
-                            <th>QTDE</th>
-                            <th>RECEITA</th>
-                            <th>CMC</th>
-                            <th>LUCRO</th>
-                            <th>MARGEM</th>
-                            <th>DEV.</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span style="background:rgba(249,115,22,0.2);color:var(--accent);padding:4px 10px;border-radius:8px;font-weight:800;">🥇</span></td>
-                            <td style="font-weight:700;">CG 160 FAN</td>
-                            <td>58</td>
-                            <td>R$ 980.000</td>
-                            <td style="color:var(--text-secondary);">R$ 810.000</td>
-                            <td class="success" style="font-weight:800;">R$ 170.000</td>
-                            <td><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">17.3%</span></td>
-                            <td class="danger">3</td>
-                        </tr>
-                        <tr>
-                            <td><span style="background:rgba(99,102,241,0.2);color:#818cf8;padding:4px 10px;border-radius:8px;font-weight:800;">🥈</span></td>
-                            <td style="font-weight:700;">NXR 160 BROS ESDD</td>
-                            <td>43</td>
-                            <td>R$ 840.000</td>
-                            <td style="color:var(--text-secondary);">R$ 680.000</td>
-                            <td class="success" style="font-weight:800;">R$ 160.000</td>
-                            <td><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">19.0%</span></td>
-                            <td class="danger">1</td>
-                        </tr>
-                        <tr>
-                            <td><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:800;">🥉</span></td>
-                            <td style="font-weight:700;">XRE 300 SAHARA</td>
-                            <td>15</td>
-                            <td>R$ 480.000</td>
-                            <td style="color:var(--text-secondary);">R$ 390.000</td>
-                            <td class="success" style="font-weight:800;">R$ 90.000</td>
-                            <td><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">18.7%</span></td>
-                            <td style="color:var(--text-secondary);">0</td>
-                        </tr>
-                        <tr>
-                            <td style="color:var(--text-secondary);padding-left:14px;">4</td>
-                            <td>BIZ 125</td>
-                            <td>26</td>
-                            <td>R$ 340.000</td>
-                            <td style="color:var(--text-secondary);">R$ 285.000</td>
-                            <td class="success">R$ 55.000</td>
-                            <td><span style="background:rgba(249,115,22,0.1);color:var(--accent);padding:4px 10px;border-radius:8px;font-weight:700;">16.2%</span></td>
-                            <td class="danger">1</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
+                        <thead>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">#</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">MODELO / SÉRIE</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">QTDE</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">RECEITA</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">CMC</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">LUCRO</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">MARGEM</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">DEV.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="transition:background 0.2s;border-bottom:1px solid rgba(255,255,255,0.04);" onmouseenter="this.style.background='rgba(249,115,22,0.05)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;"><span style="background:rgba(249,115,22,0.2);color:var(--accent);padding:4px 10px;border-radius:8px;font-weight:800;">🥇</span></td>
+                                <td style="padding:14px 20px;font-weight:700;">CG 160 FAN</td>
+                                <td style="padding:14px 20px;">58</td>
+                                <td style="padding:14px 20px;font-weight:600;">R$ 980.000</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">R$ 810.000</td>
+                                <td style="padding:14px 20px;color:var(--positive);font-weight:800;">R$ 170.000</td>
+                                <td style="padding:14px 20px;"><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">17.3%</span></td>
+                                <td style="padding:14px 20px;color:var(--negative);font-weight:700;">3</td>
+                            </tr>
+                            <tr style="transition:background 0.2s;border-bottom:1px solid rgba(255,255,255,0.04);" onmouseenter="this.style.background='rgba(99,102,241,0.05)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;"><span style="background:rgba(99,102,241,0.2);color:#818cf8;padding:4px 10px;border-radius:8px;font-weight:800;">🥈</span></td>
+                                <td style="padding:14px 20px;font-weight:700;">NXR 160 BROS ESDD</td>
+                                <td style="padding:14px 20px;">43</td>
+                                <td style="padding:14px 20px;font-weight:600;">R$ 840.000</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">R$ 680.000</td>
+                                <td style="padding:14px 20px;color:var(--positive);font-weight:800;">R$ 160.000</td>
+                                <td style="padding:14px 20px;"><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">19.0%</span></td>
+                                <td style="padding:14px 20px;color:var(--negative);font-weight:700;">1</td>
+                            </tr>
+                            <tr style="transition:background 0.2s;border-bottom:1px solid rgba(255,255,255,0.04);" onmouseenter="this.style.background='rgba(16,185,129,0.05)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;"><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:800;">🥉</span></td>
+                                <td style="padding:14px 20px;font-weight:700;">XRE 300 SAHARA</td>
+                                <td style="padding:14px 20px;">15</td>
+                                <td style="padding:14px 20px;font-weight:600;">R$ 480.000</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">R$ 390.000</td>
+                                <td style="padding:14px 20px;color:var(--positive);font-weight:800;">R$ 90.000</td>
+                                <td style="padding:14px 20px;"><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">18.7%</span></td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">0</td>
+                            </tr>
+                            <tr style="transition:background 0.2s;" onmouseenter="this.style.background='rgba(255,255,255,0.02)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;color:var(--text-secondary);padding-left:14px;">4</td>
+                                <td style="padding:14px 20px;">BIZ 125</td>
+                                <td style="padding:14px 20px;">26</td>
+                                <td style="padding:14px 20px;font-weight:600;">R$ 340.000</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">R$ 285.000</td>
+                                <td style="padding:14px 20px;color:var(--positive);">R$ 55.000</td>
+                                <td style="padding:14px 20px;"><span style="background:rgba(249,115,22,0.1);color:var(--accent);padding:4px 10px;border-radius:8px;font-weight:700;">16.2%</span></td>
+                                <td style="padding:14px 20px;color:var(--negative);font-weight:700;">1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         `
     },
@@ -348,95 +350,98 @@ const PÁGINAS = {
         desc: "Comparativo de Unidades e Lucratividade com Indicadores Visuais",
         content: `
             <div class="card-grid">
-                <div class="glass stat-card" style="border-left:3px solid var(--accent);">
-                    <p class="label">Receita Total Grupo</p>
-                    <h3 class="value glow">R$ 2.88M</h3>
-                    <span class="delta positive">↑ Consolidado Março/26</span>
+                <div class="glass stat-card" style="border-left:4px solid var(--accent);padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Receita Total Grupo</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;" class="glow">R$ 2.88M</h3>
+                    <span style="font-size:0.78rem;color:var(--positive);font-weight:700;">↑ Consolidado Mar/26</span>
                 </div>
-                <div class="glass stat-card" style="border-left:3px solid var(--positive);">
-                    <p class="label">Melhor Unidade</p>
-                    <h3 class="value" style="color:var(--positive);">Matriz</h3>
-                    <span class="delta positive">↑ ROI 32% — EXCEPCIONAL</span>
+                <div class="glass stat-card" style="border-left:4px solid var(--positive);padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Melhor Unidade</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;color:var(--positive);">Matriz</h3>
+                    <span style="font-size:0.78rem;color:var(--positive);font-weight:700;">↑ ROI 32% — EXCEPCIONAL</span>
                 </div>
-                <div class="glass stat-card" style="border-left:3px solid #f59e0b;">
-                    <p class="label">Unidade em Alerta</p>
-                    <h3 class="value" style="color:#f59e0b;">Filial Sul</h3>
-                    <span style="font-size:0.78rem;color:#f59e0b;">⚠️ Lucratividade 3.1%</span>
+                <div class="glass stat-card" style="border-left:4px solid #f59e0b;padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Unidade em Alerta</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;color:#f59e0b;">Filial Sul</h3>
+                    <span style="font-size:0.78rem;color:#f59e0b;font-weight:700;">⚠️ Lucratividade 3.1%</span>
                 </div>
-                <div class="glass stat-card" style="border-left:3px solid #a855f7;">
-                    <p class="label">EBITDA Grupo</p>
-                    <h3 class="value" style="color:#a855f7;">R$ 435k</h3>
-                    <span class="delta positive">↑ 15.1% de margem</span>
+                <div class="glass stat-card" style="border-left:4px solid #a855f7;padding:24px;">
+                    <p style="font-size:0.72rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">EBITDA Grupo</p>
+                    <h3 style="font-size:2rem;font-weight:800;letter-spacing:-1px;color:#a855f7;">R$ 435k</h3>
+                    <span style="font-size:0.78rem;color:#a855f7;font-weight:700;">↑ 15.1% de margem</span>
                 </div>
             </div>
 
             <div class="glass card-detailed">
-                <div class="card-header">
-                    <h3>🏆 Ranking Consolidado de Filiais — Março 2026</h3>
+                <div style="padding:20px 28px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;">
+                    <h3 style="font-size:1rem;font-weight:800;">🏆 Ranking Consolidado de Filiais</h3>
+                    <span style="font-size:0.75rem;color:var(--text-secondary);">Março 2026</span>
                 </div>
-                <table class="dre-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>FILIAL / UNIDADE</th>
-                            <th>FATURAMENTO (RB)</th>
-                            <th>EBITDA</th>
-                            <th>ROI</th>
-                            <th>LUCRATIVIDADE</th>
-                            <th>PERFORMANCE</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><span style="background:rgba(249,115,22,0.2);color:var(--accent);padding:4px 10px;border-radius:8px;font-weight:800;">🥇</span></td>
-                            <td style="font-weight:700;">Filial Centro (Matriz)</td>
-                            <td style="font-weight:600;">R$ 1.450.000</td>
-                            <td>R$ 280.000</td>
-                            <td class="glow" style="font-weight:800;">32%</td>
-                            <td class="success" style="font-weight:800;">12.5%</td>
-                            <td>
-                                <div style="display:flex;align-items:center;gap:8px;">
-                                    <div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;min-width:80px;">
-                                        <div style="width:85%;height:100%;background:linear-gradient(90deg,var(--accent),#ff9500);border-radius:3px;"></div>
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
+                        <thead>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">#</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">FILIAL / UNIDADE</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">FATURAMENTO (RB)</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">EBITDA</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">ROI</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">LUCRATIVIDADE</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;width:200px;">PERFORMANCE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="transition:background 0.2s;border-bottom:1px solid rgba(255,255,255,0.04);" onmouseenter="this.style.background='rgba(249,115,22,0.05)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;"><span style="background:rgba(249,115,22,0.2);color:var(--accent);padding:4px 10px;border-radius:8px;font-weight:800;">🥇</span></td>
+                                <td style="padding:14px 20px;font-weight:700;">Filial Centro (Matriz)</td>
+                                <td style="padding:14px 20px;font-weight:600;">R$ 1.450.000</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">R$ 280.000</td>
+                                <td style="padding:14px 20px;color:var(--accent);font-weight:800;" class="glow">32%</td>
+                                <td style="padding:14px 20px;color:var(--positive);font-weight:800;">12.5%</td>
+                                <td style="padding:14px 20px;">
+                                    <div style="display:flex;align-items:center;gap:8px;">
+                                        <div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;">
+                                            <div style="width:85%;height:100%;background:linear-gradient(90deg,var(--accent),#ff9500);border-radius:3px;"></div>
+                                        </div>
+                                        <span style="font-size:0.72rem;color:var(--text-secondary);">85%</span>
                                     </div>
-                                    <span style="font-size:0.72rem;color:var(--text-secondary);">85%</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><span style="background:rgba(99,102,241,0.2);color:#818cf8;padding:4px 10px;border-radius:8px;font-weight:800;">🥈</span></td>
-                            <td style="font-weight:700;">Filial Norte</td>
-                            <td style="font-weight:600;">R$ 820.000</td>
-                            <td>R$ 110.000</td>
-                            <td class="glow" style="font-weight:800;">28%</td>
-                            <td class="success" style="font-weight:800;">8.4%</td>
-                            <td>
-                                <div style="display:flex;align-items:center;gap:8px;">
-                                    <div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;min-width:80px;">
-                                        <div style="width:60%;height:100%;background:linear-gradient(90deg,#6366f1,#818cf8);border-radius:3px;"></div>
+                                </td>
+                            </tr>
+                            <tr style="transition:background 0.2s;border-bottom:1px solid rgba(255,255,255,0.04);" onmouseenter="this.style.background='rgba(99,102,241,0.05)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;"><span style="background:rgba(99,102,241,0.2);color:#818cf8;padding:4px 10px;border-radius:8px;font-weight:800;">🥈</span></td>
+                                <td style="padding:14px 20px;font-weight:700;">Filial Norte</td>
+                                <td style="padding:14px 20px;font-weight:600;">R$ 820.000</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">R$ 110.000</td>
+                                <td style="padding:14px 20px;color:var(--accent);font-weight:800;" class="glow">28%</td>
+                                <td style="padding:14px 20px;color:var(--positive);font-weight:800;">8.4%</td>
+                                <td style="padding:14px 20px;">
+                                    <div style="display:flex;align-items:center;gap:8px;">
+                                        <div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;">
+                                            <div style="width:60%;height:100%;background:linear-gradient(90deg,#6366f1,#818cf8);border-radius:3px;"></div>
+                                        </div>
+                                        <span style="font-size:0.72rem;color:var(--text-secondary);">60%</span>
                                     </div>
-                                    <span style="font-size:0.72rem;color:var(--text-secondary);">60%</span>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="color:#f59e0b;padding-left:14px;font-weight:700;">3</td>
-                            <td style="font-weight:700;">Filial Sul</td>
-                            <td style="font-weight:600;">R$ 610.000</td>
-                            <td>R$ 45.000</td>
-                            <td style="color:#f59e0b;font-weight:800;">18%</td>
-                            <td class="danger" style="font-weight:800;">3.1%</td>
-                            <td>
-                                <div style="display:flex;align-items:center;gap:8px;">
-                                    <div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;min-width:80px;">
-                                        <div style="width:25%;height:100%;background:linear-gradient(90deg,var(--negative),#f87171);border-radius:3px;"></div>
+                                </td>
+                            </tr>
+                            <tr style="transition:background 0.2s;" onmouseenter="this.style.background='rgba(255,255,255,0.02)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;color:#f59e0b;padding-left:14px;font-weight:700;">3</td>
+                                <td style="padding:14px 20px;font-weight:700;">Filial Sul</td>
+                                <td style="padding:14px 20px;font-weight:600;">R$ 610.000</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">R$ 45.000</td>
+                                <td style="padding:14px 20px;color:#f59e0b;font-weight:800;">18%</td>
+                                <td style="padding:14px 20px;color:var(--negative);font-weight:800;">3.1%</td>
+                                <td style="padding:14px 20px;">
+                                    <div style="display:flex;align-items:center;gap:8px;">
+                                        <div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;">
+                                            <div style="width:25%;height:100%;background:linear-gradient(90deg,var(--negative),#f87171);border-radius:3px;"></div>
+                                        </div>
+                                        <span style="font-size:0.72rem;color:var(--negative);">25%</span>
                                     </div>
-                                    <span style="font-size:0.72rem;color:var(--negative);">25%</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         `
     },
