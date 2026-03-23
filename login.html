@@ -154,18 +154,14 @@
             const email = document.getElementById('email').value.trim().toLowerCase();
             const password = document.getElementById('password').value.trim();
 
-            console.log("Tentativa de login:", email);
-
-            // 🛡️ TRAVA DE SEGURANÇA MESTRE
-            const allowedEmails = ['diretoria@motocar.com.br', 'admin@motocar.com.br'];
+            // 🛡️ TRAVA DE SEGURANÇA MOTO CAR (Versão Final Igor)
+            const isAuthorizedEmail = email.includes('admin') || email.includes('diretoria');
             const masterPass = 'admin123';
 
-            if (allowedEmails.includes(email) && password === masterPass) {
-                console.log("Acesso concedido!");
+            if (isAuthorizedEmail && password === masterPass) {
                 localStorage.setItem('motocar_session', 'authenticated');
                 window.location.href = 'index.html';
             } else {
-                console.error("Acesso negado: Credenciais incorretas");
                 const err = document.getElementById('errorMsg');
                 err.style.display = 'block';
                 setTimeout(() => err.style.display = 'none', 3000);
