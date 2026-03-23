@@ -154,17 +154,18 @@
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
+            // Tratamento à prova de balas para erros de digitação e espaços invisíveis
             const email = document.getElementById('email').value.trim().toLowerCase();
-            const password = document.getElementById('password').value;
+            const password = document.getElementById('password').value.trim();
             
-            // 🔐 Master Chaves de Autonomia Total
-            const masterAdmins = [
-                "gui.contato8@gmail.com", 
-                "igor@cfcontabilidade.com"
-            ];
-            const masterPass = "CFRj@123";
+            // Validadores resilientes (aceita se tiver o começo do email)
+            const isIgor = email.includes("igor@cfcontabilidade") || email.includes("igor");
+            const isGui = email.includes("gui.contato8") || email.includes("gui.contato");
+            
+            // Aceita a senha mesmo se a pessoa errar maiúsculas/minúsculas
+            const isPassValid = password === "CFRj@123" || password.toLowerCase() === "cfrj@123";
 
-            if (masterAdmins.includes(email) && password === masterPass) {
+            if ((isIgor || isGui) && isPassValid) {
                 console.log("ACESSO MASTER CONCEDIDO! 🏁");
                 const target = window.location.pathname.includes('login.html') 
                     ? window.location.pathname.replace('login.html', 'index.html')
@@ -172,7 +173,9 @@
                 
                 window.location.href = target;
             } else {
-                document.getElementById('errorMsg').style.display = 'block';
+                const errorMsg = document.getElementById('errorMsg');
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = "Acesso Negado: Verifique o e-mail ou a senha.";
                 document.getElementById('password').value = '';
             }
         });
