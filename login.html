@@ -139,7 +139,7 @@
                 <label>Chave de Acesso</label>
                 <input type="password" id="password" placeholder="••••••••" required>
             </div>
-            <button type="button" class="login-btn" id="btnEntrar">INICIAR COCKPIT 🚀</button>
+            <button type="button" class="login-btn" onclick="tentaAcessar()">INICIAR COCKPIT 🚀</button>
             <p id="errorMsg" class="error-msg" style="display:none; color: var(--danger); margin-top: 15px;">Acesso Negado: Credenciais inválidas.</p>
         </div>
 
@@ -149,24 +149,52 @@
     </div>
 
     <script>
-        lucide.createIcons();
+        try { lucide.createIcons(); } catch(e) { console.error("Lucide erro", e); }
 
-        document.getElementById('btnEntrar').addEventListener('click', () => {
-            // MODO EMERGÊNCIA (PALCO AO VIVO): PASSE LIVRE ABSOLUTO
-            console.log("ENTRANDO DIRETAMENTE NO COCKPIT...");
-            
-            // Corrige o path não importa onde o site esteja hospedado
-            let targetPath = 'index.html';
-            if (window.location.pathname.includes('login.html')) {
-                targetPath = window.location.pathname.replace('login.html', 'index.html');
+        function tentaAcessar() {
+            try {
+                const emailInp = document.getElementById('email');
+                const passInp = document.getElementById('password');
+                const errorMsg = document.getElementById('errorMsg');
+                
+                if (!emailInp || !passInp) {
+                    alert('Erro na estrutura da página. Atualize com CTRL + F5.');
+                    return;
+                }
+
+                const email = emailInp.value.trim().toLowerCase();
+                const password = passInp.value.trim();
+                
+                // Os 3 Emails Master Oficiais
+                const isIgor = email.includes("igor@cfcontabilidade");
+                const isGui = email.includes("gui.contato8");
+                const isCf = email.includes("cfcontabilidadelguilherme");
+                
+                // Senha Master
+                const isPassValid = (password === "CFRj@123" || password.toLowerCase() === "cfrj@123");
+
+                if ((isIgor || isGui || isCf) && isPassValid) {
+                    // Direcionamento Absoluto Seguro
+                    window.location.assign("index.html");
+                } else {
+                    if (errorMsg) {
+                        errorMsg.style.display = 'block';
+                        errorMsg.innerText = "Acesso Negado: E-mail ou Senha incorretos.";
+                        passInp.value = '';
+                    } else {
+                        alert("Acesso Negado: E-mail ou Senha incorretos.");
+                    }
+                }
+            } catch (err) {
+                alert("Erro interno crítico: " + err.message);
             }
-            window.location.href = targetPath;
-        });
+        }
 
-        // Auto-focus no campo de email
         window.onload = () => {
-            const emailInput = document.getElementById('email');
-            if(emailInput) emailInput.focus();
+            try {
+                const emailInput = document.getElementById('email');
+                if(emailInput) emailInput.focus();
+            } catch(e) {}
         };
     </script>
 </body>
