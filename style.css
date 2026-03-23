@@ -423,16 +423,126 @@ body::before {
 .ai-insight-card {
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(15, 23, 42, 0.5));
     border: 1px solid rgba(99, 102, 241, 0.3);
-    padding: 24px 32px;
+    border-left: 4px solid var(--secondary);
+    padding: 20px 28px;
     border-radius: 20px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
     position: relative;
     box-shadow: 0 0 30px rgba(99, 102, 241, 0.1);
 }
+.ai-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-weight: 700; }
+.ai-header i { color: var(--secondary); filter: drop-shadow(0 0 10px var(--secondary)); }
 
-.ai-header i {
-    color: var(--secondary);
-    filter: drop-shadow(0 0 10px var(--secondary));
+/* 🏷️ Stat Card Labels */
+.stat-card .label,
+.stat-card p {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+}
+.stat-card .value,
+.stat-card h3 { font-size: 2rem; font-weight: 800; letter-spacing: -1px; }
+
+/* 🃏 Detail Card */
+.card-detailed {
+    margin-top: 24px;
+    padding: 0;
+    overflow: hidden;
+}
+.card-header {
+    padding: 20px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.card-header h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+}
+
+/* 📊 Premier Data Table (dre-table) */
+.dre-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.dre-table thead tr {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.dre-table th {
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    white-space: nowrap;
+}
+
+.dre-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.dre-table tbody tr {
+    transition: background 0.2s;
+}
+
+.dre-table tbody tr:hover td {
+    background: rgba(249, 115, 22, 0.05);
+}
+
+.dre-table tbody tr.interactive {
+    cursor: pointer;
+}
+
+.dre-table tbody tr.interactive:hover td {
+    background: rgba(249, 115, 22, 0.08);
+    color: #fff;
+}
+
+.dre-table tbody tr.section-divider td {
+    background: rgba(249,115,22,0.08);
+    color: var(--accent);
+    font-weight: 800;
+    border-top: 1px solid rgba(249,115,22,0.2);
+    border-bottom: 1px solid rgba(249,115,22,0.2);
+}
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 0 0 20px 20px;
+}
+
+/* 📊 Filial Progress Bars */
+.filial-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.filial-bar-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.filial-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease;
 }
 
 /* 📊 Grid & Charts */

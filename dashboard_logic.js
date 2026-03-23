@@ -145,80 +145,93 @@ const PÁGINAS = {
         `
     },
     comercial: {
-        title: "Vendas de Motos (Dashboard Modelos)",
-        desc: "Performance por Modelos, Devoluções e CMC",
+        title: "Vendas de Motos 🏆",
+        desc: "Performance por Modelos, Devoluções e Rentabilidade",
         content: `
             <div class="card-grid">
-                <div class="glass stat-card">
-                    <p class="label">UNIDADES VENDIDAS</p>
+                <div class="glass stat-card" style="border-left: 3px solid var(--accent);">
+                    <p class="label">Unidades Vendidas</p>
                     <h3 class="value glow">142</h3>
+                    <span class="delta positive">↑ 19% vs mês anterior</span>
                 </div>
-                <div class="glass stat-card">
-                    <p class="label">TICKET MÉDIO</p>
-                    <h3 class="value success">R$ 18.250</h3>
+                <div class="glass stat-card" style="border-left: 3px solid var(--positive);">
+                    <p class="label">Ticket Médio</p>
+                    <h3 class="value" style="color: var(--positive);">R$ 18.250</h3>
+                    <span class="delta positive">↑ Estável</span>
                 </div>
-                <div class="glass stat-card">
-                    <p class="label">DEVOLUÇÕES %</p>
+                <div class="glass stat-card" style="border-left: 3px solid #a855f7;">
+                    <p class="label">Margem Média</p>
+                    <h3 class="value" style="color: #a855f7;">14.2%</h3>
+                    <span class="delta positive">↑ Meta: 12%</span>
+                </div>
+                <div class="glass stat-card" style="border-left: 3px solid var(--negative);">
+                    <p class="label">Devoluções</p>
                     <h3 class="value danger">3.1%</h3>
-                </div>
-                <div class="glass stat-card">
-                    <p class="label">MARGEM MÉDIA</p>
-                    <h3 class="value glow">14.2%</h3>
+                    <span class="delta negative">↓ Monitorar</span>
                 </div>
             </div>
 
             <div class="glass card-detailed">
                 <div class="card-header">
-                    <h3>Performance por Modelo (Ranking de Rentabilidade)</h3>
+                    <h3><i data-lucide="bar-chart-4" style="color:var(--accent);vertical-align:middle;"></i>&nbsp; Ranking de Rentabilidade por Modelo</h3>
+                    <span style="font-size:0.75rem;color:var(--text-secondary);">Março 2026</span>
                 </div>
-                <div class="table-container">
-                    <table class="dre-table">
-                        <thead>
-                            <tr>
-                                <th>MODELO / SÉRIE</th>
-                                <th>QTDE</th>
-                                <th>VLR. VENDA</th>
-                                <th>DEV. / CANC</th>
-                                <th>CMC (Custo)</th>
-                                <th>LUCRO (R$)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>NXR 160 BROS ESDD</td>
-                                <td>43</td>
-                                <td>R$ 840.000</td>
-                                <td class="danger">1</td>
-                                <td>R$ 680.000</td>
-                                <td class="success">R$ 160.000</td>
-                            </tr>
-                            <tr>
-                                <td>CG 160 FAN</td>
-                                <td>58</td>
-                                <td>R$ 980.000</td>
-                                <td class="danger">3</td>
-                                <td>R$ 810.000</td>
-                                <td class="success">R$ 170.000</td>
-                            </tr>
-                            <tr>
-                                <td>XRE 300 SAHARA</td>
-                                <td>15</td>
-                                <td>R$ 480.000</td>
-                                <td>0</td>
-                                <td>R$ 390.000</td>
-                                <td class="success">R$ 90.000</td>
-                            </tr>
-                            <tr>
-                                <td>BIZ 125</td>
-                                <td>26</td>
-                                <td>R$ 340.000</td>
-                                <td class="danger">1</td>
-                                <td>R$ 285.000</td>
-                                <td class="success">R$ 55.000</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="dre-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>MODELO / SÉRIE</th>
+                            <th>QTDE</th>
+                            <th>RECEITA</th>
+                            <th>CMC</th>
+                            <th>LUCRO</th>
+                            <th>MARGEM</th>
+                            <th>DEV.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span style="background:rgba(249,115,22,0.2);color:var(--accent);padding:4px 10px;border-radius:8px;font-weight:800;">🥇</span></td>
+                            <td style="font-weight:700;">CG 160 FAN</td>
+                            <td>58</td>
+                            <td>R$ 980.000</td>
+                            <td style="color:var(--text-secondary);">R$ 810.000</td>
+                            <td class="success" style="font-weight:800;">R$ 170.000</td>
+                            <td><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">17.3%</span></td>
+                            <td class="danger">3</td>
+                        </tr>
+                        <tr>
+                            <td><span style="background:rgba(99,102,241,0.2);color:#818cf8;padding:4px 10px;border-radius:8px;font-weight:800;">🥈</span></td>
+                            <td style="font-weight:700;">NXR 160 BROS ESDD</td>
+                            <td>43</td>
+                            <td>R$ 840.000</td>
+                            <td style="color:var(--text-secondary);">R$ 680.000</td>
+                            <td class="success" style="font-weight:800;">R$ 160.000</td>
+                            <td><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">19.0%</span></td>
+                            <td class="danger">1</td>
+                        </tr>
+                        <tr>
+                            <td><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:800;">🥉</span></td>
+                            <td style="font-weight:700;">XRE 300 SAHARA</td>
+                            <td>15</td>
+                            <td>R$ 480.000</td>
+                            <td style="color:var(--text-secondary);">R$ 390.000</td>
+                            <td class="success" style="font-weight:800;">R$ 90.000</td>
+                            <td><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">18.7%</span></td>
+                            <td style="color:var(--text-secondary);">0</td>
+                        </tr>
+                        <tr>
+                            <td style="color:var(--text-secondary);padding-left:14px;">4</td>
+                            <td>BIZ 125</td>
+                            <td>26</td>
+                            <td>R$ 340.000</td>
+                            <td style="color:var(--text-secondary);">R$ 285.000</td>
+                            <td class="success">R$ 55.000</td>
+                            <td><span style="background:rgba(249,115,22,0.1);color:var(--accent);padding:4px 10px;border-radius:8px;font-weight:700;">16.2%</span></td>
+                            <td class="danger">1</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         `
     },
@@ -315,49 +328,99 @@ const PÁGINAS = {
         `
     },
     filiais: {
-        title: "Performance por Filiais",
-        desc: "Comparativo de unidades e Lucratividade",
+        title: "Performance por Filiais 🏢",
+        desc: "Comparativo de Unidades e Lucratividade com Indicadores Visuais",
         content: `
+            <div class="card-grid">
+                <div class="glass stat-card" style="border-left:3px solid var(--accent);">
+                    <p class="label">Receita Total Grupo</p>
+                    <h3 class="value glow">R$ 2.88M</h3>
+                    <span class="delta positive">↑ Consolidado Março/26</span>
+                </div>
+                <div class="glass stat-card" style="border-left:3px solid var(--positive);">
+                    <p class="label">Melhor Unidade</p>
+                    <h3 class="value" style="color:var(--positive);">Matriz</h3>
+                    <span class="delta positive">↑ ROI 32% — EXCEPCIONAL</span>
+                </div>
+                <div class="glass stat-card" style="border-left:3px solid #f59e0b;">
+                    <p class="label">Unidade em Alerta</p>
+                    <h3 class="value" style="color:#f59e0b;">Filial Sul</h3>
+                    <span style="font-size:0.78rem;color:#f59e0b;">⚠️ Lucratividade 3.1%</span>
+                </div>
+                <div class="glass stat-card" style="border-left:3px solid #a855f7;">
+                    <p class="label">EBITDA Grupo</p>
+                    <h3 class="value" style="color:#a855f7;">R$ 435k</h3>
+                    <span class="delta positive">↑ 15.1% de margem</span>
+                </div>
+            </div>
+
             <div class="glass card-detailed">
                 <div class="card-header">
-                    <h3>Ranking de Performance Pro (KPIs de Resultado)</h3>
+                    <h3>🏆 Ranking Consolidado de Filiais — Março 2026</h3>
                 </div>
-                <div class="table-container">
-                    <table class="dre-table">
-                        <thead>
-                            <tr>
-                                <th>FILIAL / UNIDADE</th>
-                                <th>FATURAMENTO (RB)</th>
-                                <th>EBITDA (R$)</th>
-                                <th>ROI %</th>
-                                <th>LUCRATIVIDADE %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="interactive">
-                                <td>Filial Centro (Matriz)</td>
-                                <td>R$ 1.450.000</td>
-                                <td>R$ 280.000</td>
-                                <td class="glow">32%</td>
-                                <td class="success">12.5%</td>
-                            </tr>
-                            <tr class="interactive">
-                                <td>Filial Norte</td>
-                                <td>R$ 820.000</td>
-                                <td>R$ 110.000</td>
-                                <td class="glow">28%</td>
-                                <td class="success">8.4%</td>
-                            </tr>
-                            <tr class="interactive">
-                                <td>Filial Sul</td>
-                                <td>R$ 610.000</td>
-                                <td>R$ 45.000</td>
-                                <td class="glow">18%</td>
-                                <td class="danger">3.1%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="dre-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>FILIAL / UNIDADE</th>
+                            <th>FATURAMENTO (RB)</th>
+                            <th>EBITDA</th>
+                            <th>ROI</th>
+                            <th>LUCRATIVIDADE</th>
+                            <th>PERFORMANCE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span style="background:rgba(249,115,22,0.2);color:var(--accent);padding:4px 10px;border-radius:8px;font-weight:800;">🥇</span></td>
+                            <td style="font-weight:700;">Filial Centro (Matriz)</td>
+                            <td style="font-weight:600;">R$ 1.450.000</td>
+                            <td>R$ 280.000</td>
+                            <td class="glow" style="font-weight:800;">32%</td>
+                            <td class="success" style="font-weight:800;">12.5%</td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;min-width:80px;">
+                                        <div style="width:85%;height:100%;background:linear-gradient(90deg,var(--accent),#ff9500);border-radius:3px;"></div>
+                                    </div>
+                                    <span style="font-size:0.72rem;color:var(--text-secondary);">85%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span style="background:rgba(99,102,241,0.2);color:#818cf8;padding:4px 10px;border-radius:8px;font-weight:800;">🥈</span></td>
+                            <td style="font-weight:700;">Filial Norte</td>
+                            <td style="font-weight:600;">R$ 820.000</td>
+                            <td>R$ 110.000</td>
+                            <td class="glow" style="font-weight:800;">28%</td>
+                            <td class="success" style="font-weight:800;">8.4%</td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;min-width:80px;">
+                                        <div style="width:60%;height:100%;background:linear-gradient(90deg,#6366f1,#818cf8);border-radius:3px;"></div>
+                                    </div>
+                                    <span style="font-size:0.72rem;color:var(--text-secondary);">60%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="color:#f59e0b;padding-left:14px;font-weight:700;">3</td>
+                            <td style="font-weight:700;">Filial Sul</td>
+                            <td style="font-weight:600;">R$ 610.000</td>
+                            <td>R$ 45.000</td>
+                            <td style="color:#f59e0b;font-weight:800;">18%</td>
+                            <td class="danger" style="font-weight:800;">3.1%</td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <div style="flex:1;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;min-width:80px;">
+                                        <div style="width:25%;height:100%;background:linear-gradient(90deg,var(--negative),#f87171);border-radius:3px;"></div>
+                                    </div>
+                                    <span style="font-size:0.72rem;color:var(--negative);">25%</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         `
     },
