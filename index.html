@@ -10,6 +10,17 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase_conn.js"></script>
+    <script>
+        // 🔒 GUARD DE SESSÃO — roda antes do corpo renderizar
+        (async () => {
+            const sb = window._supabaseClient;
+            if (!sb) return;
+            const { data: { session } } = await sb.auth.getSession();
+            if (!session) {
+                window.location.replace('./login.html');
+            }
+        })();
+    </script>
 </head>
 <body>
     <div class="app-container">
@@ -36,10 +47,10 @@
             </nav>
 
             <div class="profile-card">
-                <div class="avatar">DIR</div>
+                <div class="avatar" id="userAvatar">--</div>
                 <div class="user-info">
-                    <p class="user-name">Administrador</p>
-                    <p class="user-role">Sócio Diretor</p>
+                    <p class="user-name" id="userName">Carregando...</p>
+                    <p class="user-role" id="userRole">MotoCarCF</p>
                 </div>
                 <button onclick="logout()" class="logout-btn" title="Sair do Cockpit">
                     <i data-lucide="log-out"></i>
@@ -132,6 +143,20 @@
     <script src="dashboard_logic.js"></script>
     <script>
         lucide.createIcons();
+
+        // Preenche o perfil com o usuário logado
+        (async () => {
+            const sb = window._supabaseClient;
+            if (!sb) return;
+            const { data: { user } } = await sb.auth.getUser();
+            if (!user) return;
+            const email = user.email || '';
+            const name  = user.user_metadata?.full_name || email.split('@')[0];
+            const initials = name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+            document.getElementById('userAvatar').textContent = initials;
+            document.getElementById('userName').textContent   = name;
+            document.getElementById('userRole').textContent   = email;
+        })();
     </script>
 </body>
 </html>

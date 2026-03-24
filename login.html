@@ -3,198 +3,390 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MotoCarCF | MOTO COCKPIT</title>
+    <title>MotoCarCF | Acesso Seguro</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase_conn.js"></script>
     <style>
+        * { box-sizing: border-box; }
+
         body {
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+            background: radial-gradient(ellipse at 60% 40%, rgba(249,115,22,0.12) 0%, transparent 60%),
+                        radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
             margin: 0;
             overflow: hidden;
+            font-family: 'Outfit', sans-serif;
         }
 
-        .login-card {
-            width: 400px;
-            padding: 40px;
-            text-align: center;
-            animation: fadeIn 0.8s ease-out;
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(249,115,22,0.15)'/%3E%3C/svg%3E") repeat;
+            opacity: 0.4;
+            animation: drift 20s linear infinite;
+        }
+        @keyframes drift { from { transform: translateY(0); } to { transform: translateY(-60px); } }
+
+        .login-wrapper {
+            width: 420px;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1);
         }
 
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Logo */
         .login-logo {
-            margin-bottom: 30px;
+            text-align: center;
+            margin-bottom: 28px;
+        }
+        .login-logo .icon-ring {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(249,115,22,0.25), rgba(249,115,22,0.05));
+            border: 1px solid rgba(249,115,22,0.4);
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 10px;
-        }
-
-        .login-logo i {
-            width: 48px;
-            height: 48px;
-            color: var(--accent);
-        }
-
-        .login-logo h1 {
+            justify-content: center;
+            margin: 0 auto 14px;
             font-size: 1.8rem;
-            letter-spacing: 2px;
         }
+        .login-logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            color: #f8fafc;
+            margin: 0;
+        }
+        .login-logo h1 span { color: #f97316; }
+        .login-logo p {
+            font-size: 0.78rem;
+            color: #64748b;
+            margin: 6px 0 0;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Card */
+        .login-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 20px;
+            padding: 36px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+        }
+
+        /* Tabs */
+        .tab-bar {
+            display: flex;
+            background: rgba(255,255,255,0.04);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 9px;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.25s;
+            letter-spacing: 0.3px;
+        }
+        .tab-btn.active {
+            background: rgba(249,115,22,0.15);
+            color: #f97316;
+            border: 1px solid rgba(249,115,22,0.3);
+        }
+
+        /* Form */
+        .form-panel { display: none; }
+        .form-panel.active { display: block; }
 
         .form-group {
-            margin-bottom: 20px;
-            text-align: left;
+            margin-bottom: 18px;
         }
-
         .form-group label {
             display: block;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
         }
-
         .form-group input {
             width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            color: #fff;
-            font-size: 1rem;
+            padding: 13px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: #f1f5f9;
+            font-size: 0.95rem;
+            font-family: 'Outfit', sans-serif;
             transition: all 0.3s;
-        }
-
-        .form-group input:focus {
             outline: none;
-            border-color: var(--accent);
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 15px rgba(249, 115, 22, 0.2);
         }
+        .form-group input:focus {
+            border-color: #f97316;
+            background: rgba(249,115,22,0.05);
+            box-shadow: 0 0 0 3px rgba(249,115,22,0.15);
+        }
+        .form-group input::placeholder { color: #475569; }
 
-        .login-btn {
+        /* Button */
+        .auth-btn {
             width: 100%;
             padding: 14px;
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, #f97316, #ea6a0a);
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             color: #fff;
+            font-family: 'Outfit', sans-serif;
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
             cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            margin-top: 10px;
+            transition: all 0.25s;
+            margin-top: 6px;
+            position: relative;
+            overflow: hidden;
         }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        .auth-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+            opacity: 0;
+            transition: opacity 0.25s;
         }
+        .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(249,115,22,0.35); }
+        .auth-btn:hover::after { opacity: 1; }
+        .auth-btn:active { transform: translateY(0); }
+        .auth-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        .error-msg {
-            color: var(--danger);
+        /* Messages */
+        .msg {
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: 8px;
             font-size: 0.85rem;
-            margin-top: 15px;
+            font-weight: 600;
             display: none;
-            animation: shake 0.4s;
+            animation: fadeMsg 0.3s;
+        }
+        @keyframes fadeMsg { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+        .msg.error { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #f87171; }
+        .msg.success { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: #34d399; }
+
+        /* Footer note */
+        .access-note {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 0.72rem;
+            color: #334155;
+            line-height: 1.6;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            vertical-align: middle;
+            margin-right: 6px;
         }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <div class="glass login-card">
+    <div class="login-wrapper">
+        <!-- Logo -->
         <div class="login-logo">
-            <i data-lucide="zap"></i>
-            <h1 class="brand-name" style="font-size: 2.2rem; letter-spacing: -2px;">MotoCar<span>CF</span></h1>
+            <div class="icon-ring">🏍️</div>
+            <h1>MotoCar<span>CF</span></h1>
+            <p>Cockpit Elite · Acesso Restrito</p>
         </div>
-        
-        <form id="loginForm" action="./index.html" onsubmit="return tentaAcessar(event)">
-            <div class="form-group">
-                <label>E-mail Master (Diretoria)</label>
-                <input type="email" id="email" placeholder="admin@cfcontabilidade.com" required>
-            </div>
-            <div class="form-group">
-                <label>Chave de Acesso</label>
-                <input type="password" id="password" placeholder="••••••••" required>
-            </div>
-            <button type="submit" class="login-btn">INICIAR COCKPIT 🚀</button>
-            <p id="errorMsg" class="error-msg" style="display:none; color: var(--danger); margin-top: 15px;">Acesso Negado: Credenciais inválidas.</p>
-        </form>
 
-        <p style="margin-top: 30px; font-size: 0.75rem; color: var(--text-secondary);">
-            Acesso restrito a administradores Moto Car.
+        <!-- Card -->
+        <div class="login-card">
+            <!-- Tab bar -->
+            <div class="tab-bar">
+                <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">🔑 Entrar</button>
+                <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">➕ Solicitar Acesso</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <div class="form-panel active" id="panelLogin">
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+                </div>
+                <button class="auth-btn" id="loginBtn" onclick="doLogin()">ENTRAR NO COCKPIT 🚀</button>
+                <div class="msg" id="loginMsg"></div>
+            </div>
+
+            <!-- REGISTER FORM -->
+            <div class="form-panel" id="panelRegister">
+                <div class="form-group">
+                    <label>Nome Completo</label>
+                    <input type="text" id="regName" placeholder="Seu nome">
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="regEmail" placeholder="seu@email.com" autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label>Senha (mínimo 6 caracteres)</label>
+                    <input type="password" id="regPassword" placeholder="Crie uma senha forte" autocomplete="new-password">
+                </div>
+                <button class="auth-btn" id="registerBtn" onclick="doRegister()">CRIAR CONTA 🏁</button>
+                <div class="msg" id="registerMsg"></div>
+            </div>
+        </div>
+
+        <p class="access-note">
+            🔒 Acesso restrito à equipe MotoCarCF.<br>
+            Cadastros precisam de aprovação do administrador.
         </p>
     </div>
 
     <script>
-        try { lucide.createIcons(); } catch(e) { console.error("Lucide erro", e); }
+        // ─── Supabase Client ──────────────────────────────────────────────────────
+        const SUPABASE_URL = 'https://imfxoedqxsojanoksrfw.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_vtDAMIZX-apl7InWq8_Z-Q_i6ZSGco2';
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        function tentaAcessar(event) {
-            try {
-                const emailInp = document.getElementById('email');
-                const passInp = document.getElementById('password');
-                const errorMsg = document.getElementById('errorMsg');
-                
-                if (!emailInp || !passInp) return false;
+        // Se já está logado, vai direto pro dashboard
+        sb.auth.getSession().then(({ data: { session } }) => {
+            if (session) window.location.replace('./index.html');
+        });
 
-                const email = emailInp.value.trim().toLowerCase();
-                const password = passInp.value.trim();
-                
-                const isIgor = email.includes("igor@cfcontabilidade");
-                const isGui = email.includes("gui.contato8");
-                const isCf = email.includes("cfcontabilidadelguilherme");
-                
-                const isPassValid = (password === "CFRj@123" || password.toLowerCase() === "cfrj@123");
-
-                if ((isIgor || isGui || isCf) && isPassValid) {
-                    console.log("SUCESSO: Navegando nativamente para index.html");
-                    return true; // Deixa o formulário HTML seguir para action="./index.html"
-                } else {
-                    event.preventDefault(); // Impede o envio cego
-                    if (errorMsg) {
-                        errorMsg.style.display = 'block';
-                        errorMsg.innerText = "Acesso Negado: Verifique o e-mail ou a senha.";
-                        passInp.value = '';
-                    } else {
-                        alert("Acesso Negado: E-mail ou Senha incorretos.");
-                    }
-                    return false;
-                }
-            } catch (err) {
-                event.preventDefault();
-                alert("Erro interno: " + err.message);
-                return false;
-            }
+        // ─── Tab switch ───────────────────────────────────────────────────────────
+        function switchTab(tab) {
+            const isLogin = tab === 'login';
+            document.getElementById('tabLogin').classList.toggle('active', isLogin);
+            document.getElementById('tabRegister').classList.toggle('active', !isLogin);
+            document.getElementById('panelLogin').classList.toggle('active', isLogin);
+            document.getElementById('panelRegister').classList.toggle('active', !isLogin);
         }
 
-        window.onload = () => {
-            try {
-                const emailInput = document.getElementById('email');
-                if(emailInput) emailInput.focus();
-            } catch(e) {}
-        };
+        // ─── Show message ─────────────────────────────────────────────────────────
+        function showMsg(id, type, text) {
+            const el = document.getElementById(id);
+            el.className = `msg ${type}`;
+            el.innerHTML = text;
+            el.style.display = 'block';
+        }
+
+        function setLoading(btnId, loading, defaultText) {
+            const btn = document.getElementById(btnId);
+            btn.disabled = loading;
+            btn.innerHTML = loading
+                ? `<span class="spinner"></span> Aguarde...`
+                : defaultText;
+        }
+
+        // ─── LOGIN ────────────────────────────────────────────────────────────────
+        async function doLogin() {
+            const email    = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showMsg('loginMsg', 'error', '⚠️ Preencha e-mail e senha.');
+                return;
+            }
+
+            setLoading('loginBtn', true, 'ENTRAR NO COCKPIT 🚀');
+
+            const { data, error } = await sb.auth.signInWithPassword({ email, password });
+
+            setLoading('loginBtn', false, 'ENTRAR NO COCKPIT 🚀');
+
+            if (error) {
+                showMsg('loginMsg', 'error', `🔴 ${error.message === 'Invalid login credentials'
+                    ? 'E-mail ou senha inválidos.'
+                    : error.message}`);
+                return;
+            }
+
+            showMsg('loginMsg', 'success', '✅ Acesso liberado! Carregando cockpit...');
+            setTimeout(() => window.location.replace('./index.html'), 800);
+        }
+
+        // ─── REGISTER ─────────────────────────────────────────────────────────────
+        async function doRegister() {
+            const name     = document.getElementById('regName').value.trim();
+            const email    = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+
+            if (!name || !email || !password) {
+                showMsg('registerMsg', 'error', '⚠️ Preencha todos os campos.');
+                return;
+            }
+            if (password.length < 6) {
+                showMsg('registerMsg', 'error', '⚠️ Senha deve ter no mínimo 6 caracteres.');
+                return;
+            }
+
+            setLoading('registerBtn', true, 'CRIAR CONTA 🏁');
+
+            const { data, error } = await sb.auth.signUp({
+                email,
+                password,
+                options: { data: { full_name: name } }
+            });
+
+            setLoading('registerBtn', false, 'CRIAR CONTA 🏁');
+
+            if (error) {
+                showMsg('registerMsg', 'error', `🔴 ${error.message}`);
+                return;
+            }
+
+            // Supabase por padrão envia e-mail de confirmação
+            showMsg('registerMsg', 'success',
+                '📧 Conta criada! Verifique seu e-mail para confirmar o cadastro.<br><small style="opacity:0.7">Após confirmação, aguarde liberação do administrador.</small>');
+
+            // Limpa campos
+            document.getElementById('regName').value = '';
+            document.getElementById('regEmail').value = '';
+            document.getElementById('regPassword').value = '';
+        }
+
+        // ─── Enter key support ────────────────────────────────────────────────────
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter') return;
+            const isLoginActive = document.getElementById('panelLogin').classList.contains('active');
+            if (isLoginActive) doLogin();
+            else doRegister();
+        });
     </script>
 </body>
 </html>

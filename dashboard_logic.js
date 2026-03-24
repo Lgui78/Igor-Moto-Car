@@ -335,13 +335,23 @@ const PÁGINAS = {
         title: "Análise de Despesas",
         desc: "Centro de Custo e Evolução Temporal",
         content: `
-            <div class="ai-insight-card animate-slide-up" style="border-left-color: var(--negative)">
-                <div class="ai-header"><i data-lucide="alert-triangle"></i> <strong>IA Financeira:</strong> Controle de Gastos</div>
-                <p>As despesas de 'Pessoal' subiram 12% sem aumento proporcional na receita na Filial Sul. Recomendo congelamento de novas contratações até o próximo ciclo.</p>
+            <div class="ai-insight-card animate-slide-up" style="border-left:4px solid var(--negative);background:rgba(239, 68, 68, 0.05);">
+                <div class="ai-header" style="color:var(--negative);"><i data-lucide="alert-triangle"></i> <strong>IA Financeira:</strong> Controle de Gastos</div>
+                <p style="font-size:0.88rem;color:var(--text-primary);line-height:1.5;">As despesas de 'Pessoal' subiram 12% sem aumento proporcional na receita na Filial Sul. Recomendo congelamento de novas contratações até o próximo ciclo.</p>
             </div>
-            <div class="main-grid" style="grid-template-columns: 1fr 1fr">
-                <div class="glass"><div class="section-header"><h3>Breakdown por Categoria</h3></div><canvas id="chartDespesasPizza"></canvas></div>
-                <div class="glass"><div class="section-header"><h3>Evolução de Custos Fixos</h3></div><canvas id="chartDespesasLinha"></canvas></div>
+            <div class="main-grid" style="grid-template-columns: 1fr 1.2fr; gap:24px;">
+                <div class="glass" style="padding:24px;">
+                    <div style="margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
+                        <h3 style="font-size:1rem;font-weight:800;">Breakdown por Categoria</h3>
+                    </div>
+                    <div style="height:320px;"><canvas id="chartDespesasPizza"></canvas></div>
+                </div>
+                <div class="glass" style="padding:24px;">
+                    <div style="margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
+                        <h3 style="font-size:1rem;font-weight:800;">Evolução de Custos Fixos</h3>
+                    </div>
+                    <div style="height:320px;"><canvas id="chartDespesasLinha"></canvas></div>
+                </div>
             </div>
         `
     },
@@ -449,72 +459,76 @@ const PÁGINAS = {
         title: "Sazonalidade (Análise YoY)",
         desc: "Comparativo Histórico: 2026 vs 2025",
         content: `
-            <div class="ai-insight-card animate-slide-up">
-                <div class="ai-header"><i data-lucide="calendar"></i> <strong>IA Preditiva:</strong> Sazonalidade</div>
-                <p>Historicamente, o mês de Junho apresenta alta de 20% pela proximidade das férias. Sugiro reforçar o estoque de pneus e kits de viagem agora em Maio.</p>
+            <div class="ai-insight-card animate-slide-up" style="border-left:4px solid var(--accent);">
+                <div class="ai-header" style="color:var(--accent);"><i data-lucide="calendar"></i> <strong>IA Preditiva:</strong> Sazonalidade</div>
+                <p style="font-size:0.88rem;color:var(--text-primary);line-height:1.5;">Historicamente, o mês de Junho apresenta alta de 20% pela proximidade das férias. Sugiro reforçar o estoque de pneus e kits de viagem agora em Maio.</p>
             </div>
-            <div class="glass" style="height: 450px"><canvas id="chartSazonalidade"></canvas></div>
+            <div class="glass" style="padding:24px;">
+                <div style="margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;">
+                    <h3 style="font-size:1rem;font-weight:800;">Curva de Demanda Histórica (Motos & Peças)</h3>
+                    <div style="font-size:0.7rem;color:var(--text-secondary);background:rgba(255,255,255,0.05);padding:4px 10px;border-radius:6px;">PROJEÇÃO AUTOMÁTICA</div>
+                </div>
+                <div style="height:450px;"><canvas id="chartSazonalidade"></canvas></div>
+            </div>
         `
     },
     orcamento: {
         title: "Acompanhamento Orçamentário",
         desc: "Análise de Desvios (Realizado vs Planejado)",
         content: `
-            <div class="glass filter-bar" style="margin-bottom: 20px; display: flex; gap: 15px; align-items: center; padding: 15px;">
-                <span style="font-size: 0.9rem; font-weight: 600;">FILTRAR CONTA:</span>
-                <select id="orcamentoFiltroConta" class="glass-select" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--glass-border); padding: 5px 15px; border-radius: 4px;">
-                    <option value="todas">Todas as Despesas</option>
-                    <option value="pessoal">Folha de Pagamento (Pessoal)</option>
-                    <option value="marketing">Investimento Marketing</option>
-                    <option value="aluguel">Aluguel e Infra</option>
-                    <option value="comercial">Despesas Comerciais</option>
+            <div class="glass" style="margin-bottom: 24px; display: flex; gap: 15px; align-items: center; padding: 20px; border-bottom: 2px solid var(--accent);">
+                <span style="font-size: 0.72rem; font-weight: 800; color:var(--text-secondary); letter-spacing:1px; text-transform:uppercase;">FILTRAR CONTA:</span>
+                <select id="orcamentoFiltroConta" style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--glass-border); padding: 8px 16px; border-radius: 10px; font-family:'Outfit'; outline:none; cursor:pointer;">
+                    <option value="todas">Todas as Contas</option>
+                    <option value="pessoal">Folha de Pagamento</option>
+                    <option value="marketing">Verba Marketing</option>
+                    <option value="aluguel">Custos Fixos / Aluguel</option>
+                    <option value="comercial">Despesas Variáveis</option>
                 </select>
-                <div class="glow-tag">LIVE FEED</div>
+                <div style="margin-left:auto; background:rgba(16,185,129,0.1); color:var(--positive); padding:5px 12px; border-radius:30px; font-size:0.7rem; font-weight:700; border:1px solid rgba(16,185,129,0.3);">REAL-TIME SYNC</div>
             </div>
 
-            <div class="glass" style="height: 400px; padding: 20px;">
-                <div class="card-header">
-                    <h3>Realizado vs Orçado - Março 2026</h3>
-                </div>
-                <canvas id="chartOrcamento"></canvas>
+            <div class="glass" style="padding: 24px; margin-bottom:24px;">
+                <h3 style="font-size:1rem;font-weight:800;margin-bottom:20px;">Realizado vs Orçado - Março 2026</h3>
+                <div style="height:350px;"><canvas id="chartOrcamento"></canvas></div>
             </div>
 
-            <div class="glass" style="margin-top: 20px; padding: 20px;">
-                <div class="section-header">
-                    <h3>Detalhamento de Desvios por Centro de Custo</h3>
+            <div class="glass card-detailed">
+                <div style="padding:20px 28px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;">
+                    <h3 style="font-size:1rem;font-weight:800;">Detalhamento de Desvios por Centro de Custo</h3>
                 </div>
-                <div class="table-container">
-                    <table class="dre-table">
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:0.88rem;">
                         <thead>
-                            <tr>
-                                <th>CENTRO DE CUSTO</th>
-                                <th>ORÇADO</th>
-                                <th>REALIZADO</th>
-                                <th>DESVIO R$</th>
-                                <th>EFICIÊNCIA %</th>
+                            <tr style="border-bottom:1px solid rgba(255,255,255,0.08);">
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">CENTRO DE CUSTO</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">ORÇADO</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">REALIZADO</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">DESVIO R$</th>
+                                <th style="padding:14px 20px;text-align:left;font-size:0.7rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1.2px;">EFICIÊNCIA</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Pessoal / RH</td>
-                                <td>R$ 150.000</td>
-                                <td class="danger">R$ 168.000</td>
-                                <td class="danger">- R$ 18.000</td>
-                                <td class="danger">-12%</td>
+                            <tr style="transition:background 0.2s;border-bottom:1px solid rgba(255,255,255,0.04);" onmouseenter="this.style.background='rgba(239,68,68,0.05)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;font-weight:700;">Pessoal / RH</td>
+                                <td style="padding:14px 20px;">R$ 150.000</td>
+                                <td style="padding:14px 20px;color:var(--negative);font-weight:700;">R$ 168.000</td>
+                                <td style="padding:14px 20px;color:var(--negative);font-weight:800;">- R$ 18.000</td>
+                                <td style="padding:14px 20px;"><span style="background:rgba(239,68,68,0.15);color:var(--negative);padding:4px 10px;border-radius:8px;font-weight:700;">-12%</span></td>
                             </tr>
-                            <tr>
-                                <td>Marketing Digital</td>
-                                <td>R$ 45.000</td>
-                                <td class="success">R$ 42.000</td>
-                                <td class="success">+ R$ 3.000</td>
-                                <td class="success">106%</td>
+                            <tr style="transition:background 0.2s;border-bottom:1px solid rgba(255,255,255,0.04);" onmouseenter="this.style.background='rgba(16,185,129,0.05)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;font-weight:700;">Marketing Digital</td>
+                                <td style="padding:14px 20px;">R$ 45.000</td>
+                                <td style="padding:14px 20px;color:var(--positive);font-weight:700;">R$ 42.000</td>
+                                <td style="padding:14px 20px;color:var(--positive);font-weight:800;">+ R$ 3.000</td>
+                                <td style="padding:14px 20px;"><span style="background:rgba(16,185,129,0.15);color:var(--positive);padding:4px 10px;border-radius:8px;font-weight:700;">106%</span></td>
                             </tr>
-                            <tr>
-                                <td>Infra / Aluguel</td>
-                                <td>R$ 30.000</td>
-                                <td>R$ 30.000</td>
-                                <td>R$ 0</td>
-                                <td>100%</td>
+                            <tr style="transition:background 0.2s;" onmouseenter="this.style.background='rgba(255,255,255,0.02)'" onmouseleave="this.style.background='transparent'">
+                                <td style="padding:14px 20px;font-weight:700;">Infra / Aluguel</td>
+                                <td style="padding:14px 20px;">R$ 30.000</td>
+                                <td style="padding:14px 20px;">R$ 30.000</td>
+                                <td style="padding:14px 20px;color:var(--text-secondary);">R$ 0</td>
+                                <td style="padding:14px 20px;"><span style="background:rgba(255,255,255,0.05);color:var(--text-secondary);padding:4px 10px;border-radius:8px;font-weight:700;">100%</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -605,9 +619,10 @@ function closeParticipation() {
     document.getElementById('sideParticipationPanel').classList.remove('active');
 }
 
-function logout() {
-    localStorage.removeItem('motocar_session');
-    location.href = 'login.html';
+async function logout() {
+    const sb = window._supabaseClient;
+    if (sb) await sb.auth.signOut();
+    window.location.replace('./login.html');
 }
 
 // Global Filter Listeners - Reatribui lógica de renderização
